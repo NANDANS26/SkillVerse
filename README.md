@@ -247,8 +247,8 @@ POST http://localhost:8000/api/v1/match
 
 * **Nandan S** – Full Stack + AI
 * Manyashree  B – Frontend enigneer
-* Mohith A M - Backend + ML
-* Nanditha M C - Frontend + ML
+* Mohith A M - Full Stack + ML
+* Nanditha M C - Frontend enigneer
 
 ---
 
