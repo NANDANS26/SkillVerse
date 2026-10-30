@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillVerse Companion</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="extension-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-box">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>SkillVerse</h1>
+          <span class="badge-tag">Companion</span>
+        </div>
+      </div>
+      <button id="btn-settings-toggle" class="icon-button" aria-label="Extension Settings" title="Settings">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Error / Info Banner -->
+    <div id="status-banner" class="status-banner hidden" role="alert"></div>
+
+    <!-- Main Content Views -->
+    <main class="content-body">
+      <!-- 1. State: Unsupported Page -->
+      <section id="view-unsupported" class="state-view hidden">
+        <div class="empty-state">
+          <div class="icon-circle warning">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <h2>Unsupported Page</h2>
+          <p>SkillVerse Companion captures project evidence from GitHub repositories.</p>
+          <div class="code-box" id="unsupported-url">github.com/{owner}/{repository}</div>
+          <p class="helper-text">Navigate to any public or private GitHub repository to capture metadata.</p>
+        </div>
+      </section>
+
+      <!-- 2. State: Ready to Capture -->
+      <section id="view-ready" class="state-view hidden">
+        <div class="card target-card">
+          <div class="target-header">
+            <span class="badge-gh">GitHub Repo</span>
+            <span id="ready-vis-badge" class="badge-vis">Public</span>
+          </div>
+          <h3 id="ready-repo-title">owner / repo</h3>
+          <p id="ready-url" class="truncate-url">https://github.com/...</p>
+        </div>
+        <div class="action-block">
+          <button id="btn-capture" class="btn btn-primary btn-block">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Capture Repository Evidence
+          </button>
+          <p class="privacy-note">Only repository name, description, topics, and your contribution are captured.</p>
+        </div>
+      </section>
+
+      <!-- 3. State: Capturing (Loading) -->
+      <section id="view-capturing" class="state-view hidden">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <h2>Inspecting Repository</h2>
+          <p>Extracting DOM metadata and topic tags...</p>
+        </div>
+      </section>
+
+      <!-- 4. State: Preview & Edit Draft -->
+      <section id="view-preview" class="state-view hidden">
+        <div id="private-warning" class="warning-banner hidden">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <div>
+            <strong>Private Repository:</strong> Metadata will be captured, but SkillVerse will never access private source files. Confirm you have permission to reference this work.
+          </div>
+        </div>
+
+        <div class="card repo-preview-card">
+          <div class="repo-meta-row">
+            <h3 id="preview-repo-name">repo-name</h3>
+            <span id="preview-vis-badge" class="badge-vis">Public</span>
+          </div>
+          <p id="preview-repo-owner" class="repo-owner-label">by owner</p>
+          <p id="preview-repo-desc" class="repo-desc">No description provided.</p>
+          <div id="preview-topics" class="topics-wrap"></div>
+        </div>
+
+        <form id="draft-form" class="draft-form">
+          <div class="form-group">
+            <div class="label-row">
+              <label for="input-summary">Your Contribution Summary <span class="required">*</span></label>
+              <span id="char-count" class="char-count">0/2000</span>
+            </div>
+            <textarea 
+              id="input-summary" 
+              rows="3" 
+              maxlength="2000" 
+              required 
+              placeholder="Explain your role: features implemented, architecture choices, bugs solved..."
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="input-skills">Proposed Skills (comma-separated)</label>
+            <input 
+              type="text" 
+              id="input-skills" 
+              placeholder="e.g. TypeScript, React, PostgreSQL"
+              maxlength="200"
+            />
+            <span class="input-hint">Will be matched to canonical SkillVerse competencies during import.</span>
+          </div>
+
+          <div class="destination-row">
+            <span>Destination:</span>
+            <span id="display-app-url" class="dest-url">http://localhost:5173</span>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="btn-cancel-draft" class="btn btn-secondary">Discard</button>
+            <button type="submit" id="btn-transfer" class="btn btn-primary">
+              Transfer to SkillVerse
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- 5. State: Transferring / Handoff -->
+      <section id="view-transferring" class="state-view hidden">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <h2>Opening SkillVerse</h2>
+          <p>Transferring draft via secure URL fragment handoff...</p>
+          <p class="helper-text">Review and confirm submission inside the SkillVerse web app.</p>
+        </div>
+      </section>
+
+      <!-- 6. State: Settings View -->
+      <section id="view-settings" class="state-view hidden">
+        <h2>Extension Settings</h2>
+        <p class="helper-text">Configure local development target port and URL.</p>
+        <div class="form-group">
+          <label for="input-app-url">SkillVerse Web Application URL</label>
+          <input type="url" id="input-app-url" placeholder="http://localhost:5173" required />
+          <span class="input-hint">Default: http://localhost:5173 (or http://127.0.0.1:5173)</span>
+        </div>
+        <div class="form-actions">
+          <button id="btn-cancel-settings" class="btn btn-secondary">Back</button>
+          <button id="btn-save-settings" class="btn btn-primary">Save Changes</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <span>SkillVerse v1.0 • Evidence Engine</span>
+    </footer>
+  </div>
+
+  <script type="module" src="src/popup.js"></script>
+</body>
+</html>

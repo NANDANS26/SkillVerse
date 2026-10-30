@@ -67,3 +67,18 @@
 ::-webkit-scrollbar-thumb:hover {
   @apply from-blue-600 to-purple-600;
 }
+
+
+/* AppShell layout normalization for nested pages */
+.app-shell-content aside {
+  display: none !important;
+}
+
+.app-shell-content .lg\:ml-64 {
+  margin-left: 0 !important;
+  padding: 0 !important;
+}
+
+.app-shell-content .min-h-screen {
+  min-height: auto !important;
+}

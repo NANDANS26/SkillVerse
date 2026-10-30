@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { User, Bell, Shield, Globe, Moon, Sun, Mail, Lock, Trash2, Download } from 'lucide-react'
-import Sidebar from '../../components/Sidebar'
+import { User, Bell, Shield, Globe, Moon, Sun, Lock, Trash2, Download } from 'lucide-react'
+// Sidebar rendered by AppShell
 import { useTheme } from '../../contexts/ThemeContext'
+import StudentPilotConsentCard from '../../components/StudentPilotConsentCard'
 
 export default function CandidateSettings() {
   const { theme, toggleTheme } = useTheme()
@@ -46,9 +47,9 @@ export default function CandidateSettings() {
 
   return (
     <div className="flex min-h-screen page-transition">
-      <Sidebar />
+      {/* Sidebar rendered by AppShell */}
       
-      <div className="flex-1 lg:ml-64 p-6">
+      <div className="flex-1  p-6">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
@@ -427,6 +428,24 @@ export default function CandidateSettings() {
                   </select>
                 </div>
               </div>
+            </div>
+
+            {/* Controlled Pilot Participation */}
+            <div className="bg-white dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 space-y-4">
+              <div className="flex items-center space-x-3">
+                <div className="h-10 w-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+                  <Shield className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                    Controlled Pilot & Research Participation
+                  </h2>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Manage voluntary opt-in and consent status for institutional AI recommendation pilots.
+                  </p>
+                </div>
+              </div>
+              <StudentPilotConsentCard />
             </div>
 
             {/* Help & Support */}

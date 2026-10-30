@@ -10,14 +10,9 @@ import {
   Moon,
   Sun,
   Save,
-  X,
-  CheckCircle,
-  Download,
-  Upload,
-  Trash2,
-  HelpCircle
+            
 } from 'lucide-react'
-import Sidebar from '../../components/Sidebar'
+// Sidebar rendered by AppShell
 import { useTheme } from '../../contexts/ThemeContext'
 
 export default function Settings() {
@@ -76,9 +71,9 @@ export default function Settings() {
 
   return (
     <div className="flex min-h-screen page-transition">
-      <Sidebar />
+      {/* Sidebar rendered by AppShell */}
       
-      <div className="flex-1 lg:ml-64 p-6">
+      <div className="flex-1  p-6">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="mb-8">

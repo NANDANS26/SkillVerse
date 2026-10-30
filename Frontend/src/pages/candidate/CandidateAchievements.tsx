@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Trophy, Award, Star, Zap, Target, TrendingUp, Shield, Rocket, Flame, Crown } from 'lucide-react'
-import Sidebar from '../../components/Sidebar'
+import { Trophy, Award, Star, Zap, Target, Shield, Rocket, Flame, Crown } from 'lucide-react'
+// Sidebar rendered by AppShell
 
 // Mock achievements data
 const achievements = [
@@ -148,11 +148,7 @@ export default function CandidateAchievements() {
   }
 
   return (
-    <div className="flex min-h-screen page-transition">
-      <Sidebar />
-      
-      <div className="flex-1 lg:ml-64 p-6">
-        <div className="max-w-7xl mx-auto">
+    <div className="space-y-6 page-transition">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -461,8 +457,6 @@ export default function CandidateAchievements() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
     </div>
   )
 }

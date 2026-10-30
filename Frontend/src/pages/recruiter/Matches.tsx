@@ -4,24 +4,21 @@ import {
   Search, 
   Filter, 
   Target, 
-  User, 
+   
   Briefcase, 
-  MapPin,
-  Calendar,
-  Star,
-  Eye,
+        Eye,
   MessageSquare,
   Download,
-  TrendingUp,
-  CheckCircle,
+    CheckCircle,
   XCircle,
   Clock,
-  ChevronDown
+  
 } from 'lucide-react'
-import Sidebar from '../../components/Sidebar'
+import { useAuth } from '../../contexts/AuthContext'
 
 export default function Matches() {
-  const [matches, setMatches] = useState([
+  const { isDemoMode } = useAuth()
+  const [matches] = useState([
     {
       id: '1',
       jobTitle: 'Senior Frontend Developer',
@@ -129,11 +126,7 @@ export default function Matches() {
   }
 
   return (
-    <div className="flex min-h-screen page-transition">
-      <Sidebar />
-      
-      <div className="flex-1 lg:ml-64 p-6">
-        <div className="max-w-7xl mx-auto">
+    <div className="space-y-6 page-transition">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -142,6 +135,11 @@ export default function Matches() {
             <p className="text-gray-600 dark:text-gray-300 mt-2">
               View and manage all candidate matches across your job postings
             </p>
+            {isDemoMode && (
+              <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-xl text-xs text-amber-800 dark:text-amber-300">
+                <strong>Simulated Overview (Demonstration Benchmark):</strong> Candidate records and interview pipeline stages reflect demonstration data models.
+              </div>
+            )}
           </div>
 
           {/* Stats */}
@@ -339,8 +337,6 @@ export default function Matches() {
               </button>
             </div>
           )}
-        </div>
-      </div>
     </div>
   )
 }

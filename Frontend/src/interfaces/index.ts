@@ -49,6 +49,9 @@ export interface Match {
   id: string;
   jobId: string;
   candidateId: string;
+  candidateName?: string;
+  headline?: string;
+  location?: string;
   score: number;
   skillOverlap: number;
   embeddingSimilarity: number;
@@ -58,10 +61,11 @@ export interface Match {
   lastUpdated: string;
 }
 
-export interface Recruiter {
-  id: string;
-  name: string;
-  email: string;
-  company: string;
-  jobs: string[];
+export interface VerificationResult {
+  candidateId: string;
+  projectId: string;
+  skillsVerified: string[];
+  confidence: number;
+  evidence: string[];
+  timestamp: string;
 }

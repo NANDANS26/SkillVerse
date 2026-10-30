@@ -1,26 +1,23 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { 
   Search, 
   Filter, 
   User, 
   MapPin, 
-  Briefcase, 
+   
   Calendar,
   Star,
-  Mail,
-  Phone,
-  Download,
+      Download,
   Eye,
   MessageSquare,
-  Award,
-  Users,
+    Users,
   ChevronDown
 } from 'lucide-react'
-import Sidebar from '../../components/Sidebar'
+// Sidebar rendered by AppShell
 
 export default function Candidates() {
-  const [candidates, setCandidates] = useState([
+  const [candidates] = useState([
     {
       id: '1',
       name: 'Alex Johnson',
@@ -104,11 +101,7 @@ export default function Candidates() {
   }
 
   return (
-    <div className="flex min-h-screen page-transition">
-      <Sidebar />
-      
-      <div className="flex-1 lg:ml-64 p-6">
-        <div className="max-w-7xl mx-auto">
+    <div className="space-y-6 page-transition">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -290,8 +283,6 @@ export default function Candidates() {
               </button>
             </div>
           )}
-        </div>
-      </div>
     </div>
   )
 }

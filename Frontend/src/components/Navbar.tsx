@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { Menu, X, Bell, Search, Sun, Moon } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Menu, Bell, Search, Sun, Moon } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import { useSidebar } from '../contexts/SidebarContext'
+import { ROLE_LABELS } from '../types/roles'
 
 export default function Navbar() {
   const { user, logout } = useAuth()
@@ -26,14 +28,14 @@ export default function Navbar() {
             </button>
             
             {/* Logo */}
-            <div className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-2">
               <div className="h-8 w-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">J</span>
+                <span className="text-white font-bold text-sm">S</span>
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                JobMatch
+                SkillVerse
               </span>
-            </div>
+            </Link>
 
             {/* Search Bar - Desktop */}
             {user && (
@@ -81,8 +83,7 @@ export default function Navbar() {
                     {user.name}
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {user.role === 'recruiter' ? 'Recruiter' : 
-                     user.role === 'admin' ? 'Administrator' : 'Candidate'}
+                    {ROLE_LABELS[user.role] || user.role}
                   </div>
                 </div>
                 <button
@@ -94,18 +95,18 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex items-center space-x-3">
-                <a
-                  href="/login"
+                <Link
+                  to="/login"
                   className="px-4 py-2 text-gray-600 dark:text-gray-300 text-sm font-semibold hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   Login
-                </a>
-                <a
-                  href="/signup"
+                </Link>
+                <Link
+                  to="/signup"
                   className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all"
                 >
                   Sign Up
-                </a>
+                </Link>
               </div>
             )}
           </div>

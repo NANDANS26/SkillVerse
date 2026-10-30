@@ -1,146 +1,264 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+// Frontend/src/contexts/AuthContext.tsx
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { UserRole, normalizeRole } from '../types/roles';
+import { api, ApiResponse, ApiError } from '../services/api';
+import { DEMO_USERS } from '../data/mockFixtures';
 
-type UserRole = 'candidate' | 'recruiter' | 'admin'
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  title?: string;
+  organization?: string;
+  isDemo?: boolean;
+}
 
-interface User {
-  id: string
-  name: string
-  email: string
-  role: UserRole
+interface LoginResult {
+  success: boolean;
+  user?: User;
+  message?: string;
 }
 
 interface AuthContextType {
-  user: User | null
-  login: (email: string, password: string) => Promise<boolean>
-  signup: (name: string, email: string, password: string, role: UserRole) => Promise<boolean>
-  logout: () => void
-  isLoading: boolean
+  user: User | null;
+  isLoading: boolean;
+  isDemoMode: boolean;
+  login: (email: string, password: string) => Promise<LoginResult>;
+  signup: (name: string, email: string, password: string, role: UserRole) => Promise<LoginResult>;
+  logout: () => Promise<void>;
+  refreshUser: () => Promise<void>;
+  startDemoMode: (role?: UserRole) => void;
+  switchDemoRole: (role: UserRole) => void;
+  exitDemoMode: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Change this if your backend URL/port is different
-const API_BASE_URL = 'http://localhost:3000/api'
+const DEMO_ACTIVE_KEY = 'skillverse_demo_active';
+const DEMO_ROLE_KEY = 'skillverse_demo_role';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('user')
-    return saved ? JSON.parse(saved) : null
-  })
-  const [isLoading, setIsLoading] = useState(false)
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDemoMode, setIsDemoMode] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem(DEMO_ACTIVE_KEY) === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const loadDemoUser = useCallback((targetRole: UserRole = 'student'): User => {
+    const demoProfile = DEMO_USERS[targetRole] || DEMO_USERS.student;
+    return {
+      id: demoProfile.id,
+      name: demoProfile.name,
+      email: demoProfile.email,
+      role: demoProfile.role,
+      title: demoProfile.title,
+      organization: demoProfile.organization,
+      isDemo: true
+    };
+  }, []);
+
+  const refreshUser = useCallback(async () => {
+    // Check if user previously engaged demo mode in this browser session
+    try {
+      const demoActive = sessionStorage.getItem(DEMO_ACTIVE_KEY) === 'true';
+      if (demoActive) {
+        const storedRole = (sessionStorage.getItem(DEMO_ROLE_KEY) as UserRole) || 'student';
+        setUser(loadDemoUser(storedRole));
+        setIsDemoMode(true);
+        setIsLoading(false);
+        return;
+      }
+    } catch {
+      // sessionStorage might not be accessible
+    }
+
+    try {
+      const data = await api.get<ApiResponse>('/auth/me');
+      if (data && data.success && data.user) {
+        const verifiedUser: User = {
+          id: String(data.user.id),
+          name: data.user.name,
+          email: data.user.email,
+          role: normalizeRole(data.user.role),
+          isDemo: false
+        };
+        setUser(verifiedUser);
+        setIsDemoMode(false);
+      } else {
+        setUser(null);
+      }
+    } catch {
+      // If /auth/me fails (no session/cookie), clear user
+      setUser(null);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [loadDemoUser]);
 
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user))
-    } else {
-      localStorage.removeItem('user')
-      localStorage.removeItem('token')
-    }
-  }, [user])
+    refreshUser();
+  }, [refreshUser]);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const startDemoMode = (role: UserRole = 'student') => {
     try {
-      setIsLoading(true)
-
-      const res = await fetch(`${API_BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-      })
-
-      const data = await res.json()
-
-      // Expected backend response: { success: true, user: {...}, token: "..." }
-      if (!res.ok || !data.success || !data.user) {
-        setIsLoading(false)
-        return false
-      }
-
-      const loggedInUser: User = {
-        id: String(data.user.id),
-        name: data.user.name,
-        email: data.user.email,
-        role: data.user.role as UserRole
-      }
-
-      setUser(loggedInUser)
-      if (data.token) {
-        localStorage.setItem('token', data.token)
-      }
-
-      setIsLoading(false)
-      return true
-    } catch (error) {
-      console.error('Login error:', error)
-      setIsLoading(false)
-      return false
+      sessionStorage.setItem(DEMO_ACTIVE_KEY, 'true');
+      sessionStorage.setItem(DEMO_ROLE_KEY, role);
+    } catch {
+      // ignore
     }
-  }
+    setIsDemoMode(true);
+    setUser(loadDemoUser(role));
+  };
+
+  const switchDemoRole = (role: UserRole) => {
+    try {
+      sessionStorage.setItem(DEMO_ACTIVE_KEY, 'true');
+      sessionStorage.setItem(DEMO_ROLE_KEY, role);
+    } catch {
+      // ignore
+    }
+    setIsDemoMode(true);
+    setUser(loadDemoUser(role));
+  };
+
+  const exitDemoMode = () => {
+    try {
+      sessionStorage.removeItem(DEMO_ACTIVE_KEY);
+      sessionStorage.removeItem(DEMO_ROLE_KEY);
+    } catch {
+      // ignore
+    }
+    setIsDemoMode(false);
+    setUser(null);
+  };
+
+  const login = async (email: string, password: string): Promise<LoginResult> => {
+    try {
+      setIsLoading(true);
+      // Clean demo storage on actual login attempt
+      try {
+        sessionStorage.removeItem(DEMO_ACTIVE_KEY);
+        sessionStorage.removeItem(DEMO_ROLE_KEY);
+      } catch {
+        // ignore
+      }
+      setIsDemoMode(false);
+
+      const data = await api.post<ApiResponse>('/auth/login', { email, password });
+
+      if (data && data.success && data.user) {
+        const loggedInUser: User = {
+          id: String(data.user.id),
+          name: data.user.name,
+          email: data.user.email,
+          role: normalizeRole(data.user.role),
+          isDemo: false
+        };
+
+        setUser(loggedInUser);
+        setIsLoading(false);
+        return { success: true, user: loggedInUser };
+      }
+
+      setIsLoading(false);
+      return { success: false, message: data.message || 'Login failed' };
+    } catch (err: any) {
+      setIsLoading(false);
+      const message = err instanceof ApiError ? err.message : 'Invalid email or password';
+      return { success: false, message };
+    }
+  };
 
   const signup = async (
     name: string,
     email: string,
     password: string,
     role: UserRole
-  ): Promise<boolean> => {
+  ): Promise<LoginResult> => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
+      try {
+        sessionStorage.removeItem(DEMO_ACTIVE_KEY);
+        sessionStorage.removeItem(DEMO_ROLE_KEY);
+      } catch {
+        // ignore
+      }
+      setIsDemoMode(false);
 
-      const res = await fetch(`${API_BASE_URL}/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, email, password, role })
-      })
+      const data = await api.post<ApiResponse>('/auth/signup', {
+        name,
+        email,
+        password,
+        role: normalizeRole(role)
+      });
 
-      const data = await res.json()
+      if (data && data.success && data.user) {
+        const newUser: User = {
+          id: String(data.user.id),
+          name: data.user.name,
+          email: data.user.email,
+          role: normalizeRole(data.user.role),
+          isDemo: false
+        };
 
-      // Expected backend response: { success: true, user: {...}, token: "..." }
-      if (!res.ok || !data.success || !data.user) {
-        setIsLoading(false)
-        return false
+        setUser(newUser);
+        setIsLoading(false);
+        return { success: true, user: newUser };
       }
 
-      const newUser: User = {
-        id: String(data.user.id),
-        name: data.user.name,
-        email: data.user.email,
-        role: data.user.role as UserRole
-      }
-
-      setUser(newUser)
-      if (data.token) {
-        localStorage.setItem('token', data.token)
-      }
-
-      setIsLoading(false)
-      return true
-    } catch (error) {
-      console.error('Signup error:', error)
-      setIsLoading(false)
-      return false
+      setIsLoading(false);
+      return { success: false, message: data.message || 'Signup failed' };
+    } catch (err: any) {
+      setIsLoading(false);
+      const message = err instanceof ApiError ? err.message : 'Signup failed. Please try again.';
+      return { success: false, message };
     }
-  }
+  };
 
-  const logout = () => {
-    setUser(null)
-    localStorage.removeItem('token')
-  }
+  const logout = async (): Promise<void> => {
+    if (isDemoMode) {
+      exitDemoMode();
+      return;
+    }
+    try {
+      await api.post('/auth/logout');
+    } catch {
+      // ignore network errors on logout
+    } finally {
+      setUser(null);
+      setIsDemoMode(false);
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoading,
+        isDemoMode,
+        login,
+        signup,
+        logout,
+        refreshUser,
+        startDemoMode,
+        switchDemoRole,
+        exitDemoMode
+      }}
+    >
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext)
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider')
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
   }
-  return context
+  return context;
 }

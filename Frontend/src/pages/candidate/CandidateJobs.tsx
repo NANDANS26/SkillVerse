@@ -1,359 +1,305 @@
-import { useState } from 'react'
-import { Search, Filter, Star, MapPin, DollarSign, Clock, TrendingUp } from 'lucide-react'
-import Sidebar from '../../components/Sidebar'
+// Frontend/src/pages/candidate/CandidateJobs.tsx
+import { useState, useEffect } from 'react';
+import { 
+  Search, 
+  MapPin, 
+  Briefcase, 
+  Clock, 
+  Sparkles, 
+  CheckCircle2, 
+  AlertCircle,
+  Building2
+} from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { api, ApiError } from '../../services/api';
 
-// Mock job data
 const mockJobs = [
   {
-    id: 1,
-    title: 'Frontend Developer',
-    company: 'TechCorp',
-    location: 'San Francisco, CA',
+    id: 1001,
+    title: 'Frontend Developer (React/TS)',
+    company: 'TechCorp Innovations',
+    location: 'San Francisco, CA (Hybrid)',
     salary: '$120k - $150k',
     type: 'Full-time',
     posted: '2 days ago',
     matchScore: 95,
     skills: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS'],
-    description: 'We are looking for a skilled Frontend Developer to join our team...'
+    description: 'Build enterprise-grade SaaS web applications with responsive user interfaces and modern state architecture.'
   },
   {
-    id: 2,
-    title: 'Backend Engineer',
-    company: 'DataSystems',
+    id: 1002,
+    title: 'Distributed Systems Engineer',
+    company: 'DataSystems Cloud',
     location: 'Remote',
-    salary: '$130k - $160k',
+    salary: '$135k - $165k',
     type: 'Full-time',
     posted: '1 week ago',
     matchScore: 88,
-    skills: ['Node.js', 'Python', 'AWS', 'PostgreSQL'],
-    description: 'Build scalable backend systems for our data platform...'
+    skills: ['Node.js', 'Python', 'PostgreSQL', 'Docker'],
+    description: 'Design and optimize scalable distributed microservices, consensus replication, and event streaming backends.'
   },
   {
-    id: 3,
-    title: 'Full Stack Developer',
-    company: 'StartupXYZ',
+    id: 1003,
+    title: 'Full Stack Engineer',
+    company: 'Nexus Software',
     location: 'New York, NY',
-    salary: '$110k - $140k',
+    salary: '$115k - $145k',
     type: 'Full-time',
     posted: '3 days ago',
     matchScore: 92,
-    skills: ['React', 'Node.js', 'MongoDB', 'GraphQL'],
-    description: 'Join our early-stage startup and build amazing products...'
-  },
-  {
-    id: 4,
-    title: 'DevOps Engineer',
-    company: 'CloudTech',
-    location: 'Remote',
-    salary: '$140k - $170k',
-    type: 'Contract',
-    posted: '5 days ago',
-    matchScore: 78,
-    skills: ['AWS', 'Docker', 'Kubernetes', 'Terraform'],
-    description: 'Implement and maintain our cloud infrastructure...'
-  },
-  {
-    id: 5,
-    title: 'UX/UI Designer',
-    company: 'DesignStudio',
-    location: 'Los Angeles, CA',
-    salary: '$100k - $130k',
-    type: 'Full-time',
-    posted: '1 day ago',
-    matchScore: 65,
-    skills: ['Figma', 'Sketch', 'UI Design', 'Prototyping'],
-    description: 'Design beautiful and functional user interfaces...'
-  },
-  {
-    id: 6,
-    title: 'Machine Learning Engineer',
-    company: 'AI Labs',
-    location: 'Boston, MA',
-    salary: '$150k - $180k',
-    type: 'Full-time',
-    posted: '2 weeks ago',
-    matchScore: 85,
-    skills: ['Python', 'TensorFlow', 'PyTorch', 'MLOps'],
-    description: 'Develop cutting-edge ML models for various applications...'
+    skills: ['React', 'Node.js', 'PostgreSQL', 'GraphQL'],
+    description: 'Join an agile engineering team delivering mission-critical applications across cloud infrastructure.'
   }
-]
+];
 
 export default function CandidateJobs() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedFilters, setSelectedFilters] = useState({
-    type: 'all',
-    location: 'all',
-    minSalary: '0'
-  })
-  const [appliedJobs, setAppliedJobs] = useState<number[]>([])
+  const { isDemoMode } = useAuth();
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [appliedJobIds, setAppliedJobIds] = useState<number[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [applyingJobId, setApplyingJobId] = useState<number | null>(null);
+  const [statusFeedback, setStatusFeedback] = useState<{ type: 'success' | 'error'; text: string; jobId?: number } | null>(null);
+  const [loading, setLoading] = useState<boolean>(!isDemoMode);
 
-  const filteredJobs = mockJobs.filter(job => {
-    const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         job.skills.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()))
-    
-    const matchesType = selectedFilters.type === 'all' || job.type === selectedFilters.type
-    const matchesLocation = selectedFilters.location === 'all' || 
-                           (selectedFilters.location === 'remote' && job.location.toLowerCase().includes('remote')) ||
-                           (selectedFilters.location !== 'remote' && selectedFilters.location !== 'all' && job.location.toLowerCase().includes(selectedFilters.location))
-    const matchesSalary = parseInt(job.salary.replace(/[^0-9]/g, '')) >= parseInt(selectedFilters.minSalary) * 1000
+  useEffect(() => {
+    if (isDemoMode) {
+      setJobs(mockJobs);
+      return;
+    }
 
-    return matchesSearch && matchesType && matchesLocation && matchesSalary
-  })
+    async function loadData() {
+      try {
+        setLoading(true);
+        const [jobsRes, appsRes] = await Promise.allSettled([
+          api.get('/jobs'),
+          api.get('/candidates/me/applications')
+        ]);
 
-  const handleApply = (jobId: number) => {
-    setAppliedJobs(prev => [...prev, jobId])
-    setTimeout(() => {
-      alert('Application submitted successfully!')
-    }, 500)
-  }
+        if (jobsRes.status === 'fulfilled' && Array.isArray(jobsRes.value?.jobs)) {
+          setJobs(jobsRes.value.jobs);
+        } else {
+          setJobs([]);
+        }
 
-  const getMatchColor = (score: number) => {
-    if (score >= 90) return 'from-green-500 to-emerald-500'
-    if (score >= 80) return 'from-blue-500 to-cyan-500'
-    if (score >= 70) return 'from-yellow-500 to-orange-500'
-    return 'from-red-500 to-pink-500'
-  }
+        if (appsRes.status === 'fulfilled' && Array.isArray(appsRes.value?.applications)) {
+          const ids = appsRes.value.applications.map((a: any) => a.job_id);
+          setAppliedJobIds(ids);
+        }
+      } catch (err) {
+        console.warn('Failed to load live jobs:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, [isDemoMode]);
+
+  const handleApply = async (jobId: number) => {
+    setStatusFeedback(null);
+    if (isDemoMode) {
+      setAppliedJobIds(prev => [...prev, jobId]);
+      setStatusFeedback({
+        type: 'success',
+        jobId,
+        text: '(Demo Exploration) Job application recorded in browser session.'
+      });
+      return;
+    }
+
+    try {
+      setApplyingJobId(jobId);
+      const res = await api.post(`/jobs/${jobId}/apply`);
+      if (res && res.success) {
+        setAppliedJobIds(prev => [...prev, jobId]);
+        setStatusFeedback({
+          type: 'success',
+          jobId,
+          text: 'Application submitted successfully to recruiter requisition!'
+        });
+      } else {
+        setStatusFeedback({
+          type: 'error',
+          jobId,
+          text: res?.message || 'Failed to submit application.'
+        });
+      }
+    } catch (err: any) {
+      const errorMsg = err instanceof ApiError ? err.message : 'Error submitting application to backend.';
+      setStatusFeedback({
+        type: 'error',
+        jobId,
+        text: errorMsg
+      });
+    } finally {
+      setApplyingJobId(null);
+    }
+  };
+
+  const filteredJobs = jobs.filter(job => {
+    const titleMatch = (job.title || '').toLowerCase().includes(searchQuery.toLowerCase());
+    const locationMatch = (job.location || '').toLowerCase().includes(searchQuery.toLowerCase());
+    let skillMatch = false;
+    if (Array.isArray(job.skills)) {
+      skillMatch = job.skills.some((s: string) => s.toLowerCase().includes(searchQuery.toLowerCase()));
+    } else if (job.parsed_json?.skills) {
+      skillMatch = job.parsed_json.skills.some((s: string) => s.toLowerCase().includes(searchQuery.toLowerCase()));
+    }
+    return titleMatch || locationMatch || skillMatch;
+  });
 
   return (
-    <div className="flex min-h-screen page-transition">
-      <Sidebar />
-      
-      <div className="flex-1 lg:ml-64 p-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Recommended Jobs
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
-              Jobs matched to your profile and skills
-            </p>
-          </div>
+    <div className="space-y-6 page-transition">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Available Job Requisitions
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-1">
+            Browse active positions persisted in PostgreSQL and submit your verified candidate profile.
+          </p>
+        </div>
+      </div>
 
-          {/* Stats Bar */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                {filteredJobs.length}
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
-                Jobs Found
-              </div>
-            </div>
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                {appliedJobs.length}
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
-                Applied Jobs
-              </div>
-            </div>
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                {Math.round(filteredJobs.reduce((acc, job) => acc + job.matchScore, 0) / filteredJobs.length)}%
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
-                Avg Match Score
-              </div>
-            </div>
-            <div className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-2xl p-6">
-              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                3
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
-                Interviews Scheduled
-              </div>
-            </div>
-          </div>
+      {isDemoMode && (
+        <div className="p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-xl flex items-center gap-3 text-sm text-amber-900 dark:text-amber-200">
+          <Sparkles size={18} className="text-amber-600 shrink-0" />
+          <span>
+            <strong>DEMONSTRATION PREVIEW:</strong> Showing sample job requisitions. Live PostgreSQL jobs will be queried when operating in an authenticated student session.
+          </span>
+        </div>
+      )}
 
-          {/* Search and Filters */}
-          <div className="bg-white dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 mb-8">
-            <div className="flex flex-col lg:flex-row gap-6">
-              {/* Search */}
-              <div className="flex-1">
-                <div className="relative">
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search jobs by title, company, or skills..."
-                    className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-              </div>
+      {/* Search & Filter Bar */}
+      <div className="bg-white dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-200 dark:border-gray-700 shadow-xs">
+        <div className="relative">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+          <input
+            type="text"
+            placeholder="Search by role title, location, or required skill (e.g., Python, PostgreSQL, React)..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
+          />
+        </div>
+      </div>
 
-              {/* Filters */}
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2">
-                  <Filter className="h-5 w-5 text-gray-400" />
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Filters:</span>
-                </div>
-                
-                <select
-                  className="px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm"
-                  value={selectedFilters.type}
-                  onChange={(e) => setSelectedFilters(prev => ({ ...prev, type: e.target.value }))}
-                >
-                  <option value="all">All Types</option>
-                  <option value="Full-time">Full-time</option>
-                  <option value="Contract">Contract</option>
-                  <option value="Part-time">Part-time</option>
-                </select>
+      {/* Global Status Message */}
+      {statusFeedback && (
+        <div className={`p-4 rounded-xl text-sm flex items-center gap-2.5 ${
+          statusFeedback.type === 'success'
+            ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+            : 'bg-rose-50 dark:bg-rose-950/40 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
+        }`}>
+          {statusFeedback.type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
+          <span>{statusFeedback.text}</span>
+        </div>
+      )}
 
-                <select
-                  className="px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm"
-                  value={selectedFilters.location}
-                  onChange={(e) => setSelectedFilters(prev => ({ ...prev, location: e.target.value }))}
-                >
-                  <option value="all">All Locations</option>
-                  <option value="remote">Remote</option>
-                  <option value="san francisco">San Francisco</option>
-                  <option value="new york">New York</option>
-                </select>
+      {/* Job Listings Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {filteredJobs.map(job => {
+          let skills: string[] = [];
+          if (Array.isArray(job.skills)) {
+            skills = job.skills;
+          } else if (job.parsed_json?.skills) {
+            skills = job.parsed_json.skills;
+          } else if (Array.isArray(job.required_skills)) {
+            skills = job.required_skills;
+          }
 
-                <select
-                  className="px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm"
-                  value={selectedFilters.minSalary}
-                  onChange={(e) => setSelectedFilters(prev => ({ ...prev, minSalary: e.target.value }))}
-                >
-                  <option value="0">Any Salary</option>
-                  <option value="80">$80k+</option>
-                  <option value="100">$100k+</option>
-                  <option value="120">$120k+</option>
-                  <option value="150">$150k+</option>
-                </select>
-              </div>
-            </div>
-          </div>
+          const isApplied = appliedJobIds.includes(job.id);
+          const isApplying = applyingJobId === job.id;
 
-          {/* Job Listings */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {filteredJobs.map(job => (
-              <div key={job.id} className="bg-white dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
-                <div className="flex justify-between items-start mb-4">
+          return (
+            <div
+              key={job.id}
+              className="bg-white dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-xs flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex justify-between items-start gap-4 mb-3">
                   <div>
-                    <div className="flex items-center space-x-3 mb-2">
-                      <div className="h-12 w-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                        <span className="text-white font-bold text-sm">{job.company.charAt(0)}</span>
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                          {job.title}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-300">{job.company}</p>
-                      </div>
-                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                      {job.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-1.5">
+                      <Building2 size={13} />
+                      <span>{job.company || (isDemoMode ? 'TechCorp' : 'Verified Partner Requisition')}</span>
+                    </p>
                   </div>
-                  
-                  {/* Match Score */}
-                  <div className="text-center">
-                    <div className={`h-16 w-16 rounded-full bg-gradient-to-r ${getMatchColor(job.matchScore)} flex items-center justify-center`}>
-                      <span className="text-white font-bold text-lg">{job.matchScore}%</span>
-                    </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Match</p>
+                  <span className="shrink-0 px-2.5 py-1 text-xs font-semibold rounded-lg bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                    {job.status === 'open' ? 'Actively Hiring' : (job.status || 'Active')}
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap gap-4 text-xs text-gray-600 dark:text-gray-300 mb-4">
+                  <div className="flex items-center gap-1.5">
+                    <MapPin size={14} className="text-gray-400" />
+                    <span>{job.location || 'Remote'}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Briefcase size={14} className="text-gray-400" />
+                    <span>{job.experience_min ?? 0}-{job.experience_max ?? 5} yrs exp</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Clock size={14} className="text-gray-400" />
+                    <span>{job.created_at ? new Date(job.created_at).toLocaleDateString() : 'Recent'}</span>
                   </div>
                 </div>
 
-                {/* Job Details */}
-                <div className="space-y-4 mb-6">
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-300">
-                    <div className="flex items-center space-x-2">
-                      <MapPin size={16} />
-                      <span>{job.location}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <DollarSign size={16} />
-                      <span>{job.salary}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Clock size={16} />
-                      <span>{job.posted}</span>
-                    </div>
-                  </div>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-4 line-clamp-3 leading-relaxed">
+                  {job.raw_text || job.description || 'Job requisition details.'}
+                </p>
 
-                  <p className="text-gray-700 dark:text-gray-300 line-clamp-2">
-                    {job.description}
-                  </p>
-
-                  {/* Skills */}
-                  <div className="flex flex-wrap gap-2">
-                    {job.skills.map((skill, index) => (
+                {skills.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {skills.map((s, idx) => (
                       <span
-                        key={index}
-                        className="px-3 py-1 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-blue-700 dark:text-blue-300 rounded-lg text-sm"
+                        key={idx}
+                        className="px-2.5 py-1 text-xs font-medium rounded-lg bg-gray-50 dark:bg-gray-700/60 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600"
                       >
-                        {skill}
+                        {s}
                       </span>
                     ))}
                   </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex items-center justify-between">
-                  <button className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
-                    <Star size={18} />
-                    <span>Save</span>
-                  </button>
-                  
-                  <div className="flex items-center space-x-3">
-                    <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:border-blue-500 transition-colors">
-                      View Details
-                    </button>
-                    <button
-                      onClick={() => handleApply(job.id)}
-                      disabled={appliedJobs.includes(job.id)}
-                      className={`px-6 py-2 rounded-lg font-semibold transition-all ${
-                        appliedJobs.includes(job.id)
-                          ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                          : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'
-                      }`}
-                    >
-                      {appliedJobs.includes(job.id) ? 'Applied ✓' : 'Apply Now'}
-                    </button>
-                  </div>
-                </div>
+                )}
               </div>
-            ))}
-          </div>
 
-          {/* Empty State */}
-          {filteredJobs.length === 0 && (
-            <div className="text-center py-12">
-              <div className="h-24 w-24 mx-auto bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-full flex items-center justify-center mb-6">
-                <Search className="h-12 w-12 text-gray-400" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                No jobs found
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Try adjusting your search or filters
-              </p>
-            </div>
-          )}
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-700/80 flex items-center justify-between">
+                <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                  Authoritative Requisition #{job.id}
+                </span>
 
-          {/* ML Explanation */}
-          <div className="mt-12 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10 rounded-2xl border border-blue-200 dark:border-blue-800/50">
-            <div className="flex items-start space-x-4">
-              <TrendingUp className="h-8 w-8 text-blue-600 dark:text-blue-400 flex-shrink-0" />
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                  How Job Matching Works
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300">
-                  Our AI algorithm analyzes your skills, experience, and preferences to match you with 
-                  the most relevant job opportunities. Match scores are calculated based on skill overlap, 
-                  experience level, location preferences, and company culture fit.
-                </p>
-                <button className="mt-4 text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                  Learn more about our matching algorithm →
+                <button
+                  onClick={() => handleApply(job.id)}
+                  disabled={isApplied || isApplying}
+                  className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+                    isApplied
+                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 cursor-default'
+                      : isApplying
+                      ? 'bg-gray-200 text-gray-500 cursor-wait'
+                      : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-xs'
+                  }`}
+                >
+                  {isApplied ? 'Application Submitted ✓' : isApplying ? 'Submitting...' : 'Apply Now'}
                 </button>
               </div>
             </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
+
+      {filteredJobs.length === 0 && !loading && (
+        <div className="text-center py-16 bg-white dark:bg-gray-800/40 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+          <Briefcase className="h-10 w-10 text-gray-400 mx-auto mb-3" />
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+            No matching job requisitions found
+          </h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 max-w-sm mx-auto">
+            Try adjusting your search query or check back as recruiters publish new positions to PostgreSQL.
+          </p>
+        </div>
+      )}
     </div>
-  )
+  );
 }

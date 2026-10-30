@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { 
   Calendar, 
   Clock, 
-  User, 
+   
   Briefcase, 
   MapPin, 
   Video,
@@ -12,14 +12,13 @@ import {
   XCircle,
   MoreVertical,
   Search,
-  Filter,
-  Plus,
+    Plus,
   ChevronDown
 } from 'lucide-react'
-import Sidebar from '../../components/Sidebar'
+// Sidebar rendered by AppShell
 
 export default function Interviews() {
-  const [interviews, setInterviews] = useState([
+  const [interviews] = useState([
     {
       id: '1',
       candidateName: 'Alex Johnson',
@@ -79,7 +78,7 @@ export default function Interviews() {
 
   const [filter, setFilter] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedDate, setSelectedDate] = useState('')
+  
 
   const filteredInterviews = interviews.filter(interview => {
     if (filter === 'all') return true
@@ -120,11 +119,7 @@ export default function Interviews() {
   }
 
   return (
-    <div className="flex min-h-screen page-transition">
-      <Sidebar />
-      
-      <div className="flex-1 lg:ml-64 p-6">
-        <div className="max-w-7xl mx-auto">
+    <div className="space-y-6 page-transition">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -315,8 +310,6 @@ export default function Interviews() {
               </button>
             </div>
           )}
-        </div>
-      </div>
     </div>
   )
 }

@@ -1,3 +1,5 @@
+export * from './roles';
+
 export interface Service {
   id: string;
   title: string;

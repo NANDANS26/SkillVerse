@@ -1,4 +1,4 @@
-import { useState } from 'react'
+// MatchCard component
 import { Link } from 'react-router-dom'
 import { User, Award, MapPin, Calendar, ChevronRight, Star, Target } from 'lucide-react'
 import { Candidate } from '../interfaces'

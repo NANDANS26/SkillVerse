@@ -1,0 +1,1309 @@
+{
+  "timestamp": "2026-10-28T15:51:27.046Z",
+  "totalExpectedRequiredFiles": 235,
+  "exclusions": {
+    "directories": [
+      "node_modules",
+      ".venv",
+      "dist",
+      "test-results",
+      ".git",
+      "__pycache__",
+      "logs",
+      "audit"
+    ],
+    "files": [
+      ".env",
+      "Backend/models/live_faiss.index",
+      "Backend/models/live_faiss.index.bak",
+      "Backend/models/live_meta.json",
+      "Backend/models/live_meta.json.bak"
+    ],
+    "patterns": [
+      "*.pyc"
+    ]
+  },
+  "backups": {
+    "phase11_primary": {
+      "name": "Phase 11 Primary Backup",
+      "path": "D:\\NANDAN.S\\ENGINEERING\\HACKATHONS\\portfolio\\skillverse_phase11_backup",
+      "totalFiles": 204,
+      "identicalCount": 195,
+      "mismatchedHashCount": 9,
+      "missingCount": 31,
+      "missingFiles": [
+        "Backend/migrations/006_extension_evidence_provenance.sql",
+        "Backend/tests/phase11_operational_readiness.test.js",
+        "Backend/tests/phase12_extension_evidence.test.js",
+        "Backend/tests/verify_production_secrets.js",
+        "BrowserExtension/icons/icon-128.png",
+        "BrowserExtension/icons/icon-16.png",
+        "BrowserExtension/icons/icon-48.png",
+        "BrowserExtension/manifest.json",
+        "BrowserExtension/package.json",
+        "BrowserExtension/popup.css",
+        "BrowserExtension/popup.html",
+        "BrowserExtension/README.md",
+        "BrowserExtension/scripts/generate_icons.js",
+        "BrowserExtension/src/extractor.js",
+        "BrowserExtension/src/handoff.js",
+        "BrowserExtension/src/popup.js",
+        "BrowserExtension/src/storage.js",
+        "BrowserExtension/src/validator.js",
+        "BrowserExtension/tests/extractor.test.js",
+        "BrowserExtension/tests/handoff.test.js",
+        "BrowserExtension/tests/validator.test.js",
+        "Frontend/src/pages/ExtensionImport.tsx",
+        "Frontend/tests/e2e/phase12_extension_import.spec.ts",
+        "PHASE11_1_COLD_START_AND_BACKUP_VERIFICATION_REPORT.md",
+        "PHASE11_OPERATIONAL_READINESS_REPORT.md",
+        "PHASE12_1_EXTENSION_SECURITY_AND_OPERATIONAL_AUDIT_REPORT.md",
+        "PHASE12_BROWSER_EXTENSION_EVIDENCE_CAPTURE_REPORT.md",
+        "scripts/dev/health.ps1",
+        "scripts/dev/start.ps1",
+        "scripts/dev/status.ps1",
+        "scripts/dev/stop.ps1"
+      ],
+      "extraCount": 0,
+      "extraFiles": []
+    },
+    "phase11_1_supplemental": {
+      "name": "Phase 11.1 Supplemental Backup",
+      "path": "D:\\NANDAN.S\\ENGINEERING\\HACKATHONS\\portfolio\\skillverse_phase11_1_supplemental_backup_20261028",
+      "totalFiles": 210,
+      "identicalCount": 207,
+      "mismatchedHashCount": 3,
+      "missingCount": 25,
+      "missingFiles": [
+        "Backend/migrations/006_extension_evidence_provenance.sql",
+        "Backend/tests/phase12_extension_evidence.test.js",
+        "Backend/tests/verify_production_secrets.js",
+        "BrowserExtension/icons/icon-128.png",
+        "BrowserExtension/icons/icon-16.png",
+        "BrowserExtension/icons/icon-48.png",
+        "BrowserExtension/manifest.json",
+        "BrowserExtension/package.json",
+        "BrowserExtension/popup.css",
+        "BrowserExtension/popup.html",
+        "BrowserExtension/README.md",
+        "BrowserExtension/scripts/generate_icons.js",
+        "BrowserExtension/src/extractor.js",
+        "BrowserExtension/src/handoff.js",
+        "BrowserExtension/src/popup.js",
+        "BrowserExtension/src/storage.js",
+        "BrowserExtension/src/validator.js",
+        "BrowserExtension/tests/extractor.test.js",
+        "BrowserExtension/tests/handoff.test.js",
+        "BrowserExtension/tests/validator.test.js",
+        "Frontend/src/pages/ExtensionImport.tsx",
+        "Frontend/tests/e2e/phase12_extension_import.spec.ts",
+        "PHASE11_1_COLD_START_AND_BACKUP_VERIFICATION_REPORT.md",
+        "PHASE12_1_EXTENSION_SECURITY_AND_OPERATIONAL_AUDIT_REPORT.md",
+        "PHASE12_BROWSER_EXTENSION_EVIDENCE_CAPTURE_REPORT.md"
+      ],
+      "extraCount": 0,
+      "extraFiles": []
+    },
+    "phase12_1_supplemental": {
+      "name": "Phase 12.1 Supplemental Backup",
+      "path": "D:\\NANDAN.S\\ENGINEERING\\HACKATHONS\\portfolio\\skillverse_phase12_1_supplemental_backup_20261028",
+      "totalFiles": 234,
+      "identicalCount": 234,
+      "mismatchedHashCount": 0,
+      "missingCount": 1,
+      "missingFiles": [
+        "PHASE12_1_EXTENSION_SECURITY_AND_OPERATIONAL_AUDIT_REPORT.md"
+      ],
+      "extraCount": 0,
+      "extraFiles": []
+    },
+    "phase12_2_supplemental": {
+      "name": "Phase 12.2 Supplemental Backup",
+      "path": "D:\\NANDAN.S\\ENGINEERING\\HACKATHONS\\portfolio\\skillverse_phase12_2_supplemental_backup_20261028",
+      "totalFiles": 235,
+      "identicalCount": 235,
+      "mismatchedHashCount": 0,
+      "missingCount": 0,
+      "missingFiles": [],
+      "extraCount": 0,
+      "extraFiles": []
+    }
+  },
+  "files": [
+    {
+      "relPath": ".env.example",
+      "size": 1045,
+      "sha256": "79af085a6a74188c087a25e945adc9cd3ca0945ee13fb9aa8ff3be3ed9cf03b7"
+    },
+    {
+      "relPath": ".gitattributes",
+      "size": 68,
+      "sha256": "d8fb0de4792538f93822b2c0d235604921299d5e54a3d6ec7a6cb34536e8bf1e"
+    },
+    {
+      "relPath": ".gitignore",
+      "size": 626,
+      "sha256": "44c226e2e6060cc707c72d3e04e8a2740ee37562d8f72e326df723eb76618179"
+    },
+    {
+      "relPath": "Backend/.env.example",
+      "size": 1094,
+      "sha256": "f836125a54fc9599e96d41ade8a1205cb94ddcdfb966ec4c0b444f015d7f519e"
+    },
+    {
+      "relPath": "Backend/app/api/v1/embed.py",
+      "size": 4790,
+      "sha256": "da32d76dbb6fdc145d365b9133ec2a7f22a536087ddefb8a5b6c6877de0ae43f"
+    },
+    {
+      "relPath": "Backend/app/api/v1/match.py",
+      "size": 4817,
+      "sha256": "9e4ca46eebf463bfc9c5d67badce110c2d5318203ec123ac01bb7ad339356ac5"
+    },
+    {
+      "relPath": "Backend/app/api/v1/parse.py",
+      "size": 540,
+      "sha256": "e9c09ec0c40fdc3423e8c28f42e6db7fe6181b69390759544961e96e43b2aaa9"
+    },
+    {
+      "relPath": "Backend/app/api/v1/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relPath": "Backend/app/api/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relPath": "Backend/app/core/auth.py",
+      "size": 1204,
+      "sha256": "782b49672bc25cd6e5b5b41e8a08a3952c55ab70d51d4805210d350b7c802827"
+    },
+    {
+      "relPath": "Backend/app/core/embeddings.py",
+      "size": 2449,
+      "sha256": "399310805ac280dbbe1394fdac9a8f39747430c2b612629f19cb950c4907ab89"
+    },
+    {
+      "relPath": "Backend/app/core/faiss_index.py",
+      "size": 2268,
+      "sha256": "cd28656a086c21b06ba3d17bc0239738f06249e36b20ac0461c29073aebb2785"
+    },
+    {
+      "relPath": "Backend/app/core/live_index.py",
+      "size": 9969,
+      "sha256": "15d5e0dca850136997eb1677b11e37c5f9688a9bf93eb3bc5c3d504cd3723277"
+    },
+    {
+      "relPath": "Backend/app/core/ranker.py",
+      "size": 1180,
+      "sha256": "718ad3c582d0531725552147d249e93aae14ccbd69dc9eadb3cf1f753364b5c1"
+    },
+    {
+      "relPath": "Backend/app/core/utils.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relPath": "Backend/app/core/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relPath": "Backend/app/main.py",
+      "size": 2339,
+      "sha256": "856fc3d16b649b40d1bbc0c3b9a48f57983b98017476d29452eec445284fffec"
+    },
+    {
+      "relPath": "Backend/app/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relPath": "Backend/migrations/001_initial_schema.sql",
+      "size": 2714,
+      "sha256": "89533cfeb0bc2fc500ff44eea525c1fabc4eaea960e0aa63817d3c23ee62a415"
+    },
+    {
+      "relPath": "Backend/migrations/002_role_normalization.sql",
+      "size": 924,
+      "sha256": "107069599e0cfeb7bfc89f1a45f5500fc307834b4054805a2d5d2ea55213074e"
+    },
+    {
+      "relPath": "Backend/migrations/003_institutions_companies_assignments_and_queue.sql",
+      "size": 5174,
+      "sha256": "65ae2d108eacb4c24054024759ef4ed2816e557b773d5c34250a16d8fccde626"
+    },
+    {
+      "relPath": "Backend/migrations/004_skill_dna_evidence_and_assessments.sql",
+      "size": 13663,
+      "sha256": "6865e3cbff5126bba892b8d530e1de40e1d7c2c939e8f783a7d09c3a7f5f1ecb"
+    },
+    {
+      "relPath": "Backend/migrations/005_personalized_roadmaps_and_learning.sql",
+      "size": 10933,
+      "sha256": "0b3eebcc52e84009f2a15ecd4acfe4159790f30ce7b25754b07a48b48fc63bbe"
+    },
+    {
+      "relPath": "Backend/migrations/006_extension_evidence_provenance.sql",
+      "size": 403,
+      "sha256": "3078fef52c20f18ebbbee695dc38053e05650e8a8a845c6e9d1a14e76c817944"
+    },
+    {
+      "relPath": "Backend/models/faiss.index",
+      "size": 7680045,
+      "sha256": "11ec3b8369794af1d56ced44a7ec8c05cb0786dc9c95ca009677ad15045d44b9"
+    },
+    {
+      "relPath": "Backend/models/features.csv",
+      "size": 119415,
+      "sha256": "6a5788e2027f1b51bcadfb60f52df5757e3011861389c47727a0ecf56ee48783"
+    },
+    {
+      "relPath": "Backend/models/meta.json",
+      "size": 7135374,
+      "sha256": "87b0ec33954e2e2c000d4689b8c85a81d19aae6d8abc5c44b3fa7668158e6611"
+    },
+    {
+      "relPath": "Backend/models/ranker.pkl",
+      "size": 619259,
+      "sha256": "0c90cbe9d19a3e0ab7223061cdae5aea72152386ce17b227df0b19ce4cb5754d"
+    },
+    {
+      "relPath": "Backend/package-lock.json",
+      "size": 48601,
+      "sha256": "4c7f9b6042f4923df82cf2596c02e7fdaf6201c2fd1f42bced978ea62b433e28"
+    },
+    {
+      "relPath": "Backend/package.json",
+      "size": 535,
+      "sha256": "107e54d399621adb3d8f9843ec4c4cebf754909a416d7af062ff9c843a1ef357"
+    },
+    {
+      "relPath": "Backend/requirements.txt",
+      "size": 120,
+      "sha256": "41efe95738714b7689400fb322f4a2faf904e7ad562edc86fee93d0ae8725a6f"
+    },
+    {
+      "relPath": "Backend/server.js",
+      "size": 3373,
+      "sha256": "f944935c8940166889bdabcbf397f213e4c86238afa3ae8fe73591aa923b3b33"
+    },
+    {
+      "relPath": "Backend/src/config/db.js",
+      "size": 1189,
+      "sha256": "9b745282fedbe8ad8c2cb32f92e59aea9f65150c70bd38e5531a2b30266a62bd"
+    },
+    {
+      "relPath": "Backend/src/config/env.js",
+      "size": 1936,
+      "sha256": "ed7903917ab354a5da88779712ab36891e159f7204bd8abbb58e2281803deee2"
+    },
+    {
+      "relPath": "Backend/src/constants/roles.js",
+      "size": 1352,
+      "sha256": "d72281242ab1b0dd6daef059b87f78928f52355bf7258eac72e48462566380e1"
+    },
+    {
+      "relPath": "Backend/src/controllers/admin.controller.js",
+      "size": 6465,
+      "sha256": "867f420ac85ff790a4105d5004186ba4ef2cc2b50af90eb3cf3f5e4721233b25"
+    },
+    {
+      "relPath": "Backend/src/controllers/analytics.controller.js",
+      "size": 3102,
+      "sha256": "d2e525e35e2cee69dad2126951efb0cff5ef8dfd91658af00c94e007a9aa1f7d"
+    },
+    {
+      "relPath": "Backend/src/controllers/assessments.controller.js",
+      "size": 3924,
+      "sha256": "67f6f3c4377a75260aedd4b3ff8cd47a4d495c5cb4ad0d042f74f2e58ec7400a"
+    },
+    {
+      "relPath": "Backend/src/controllers/auth.controller.js",
+      "size": 4522,
+      "sha256": "b9b3d2d73e0be5a3b0d41db39383b7aa5e3944544c71f68ce0a9e7740a46b289"
+    },
+    {
+      "relPath": "Backend/src/controllers/candidates.controller.js",
+      "size": 10754,
+      "sha256": "aa56645426b796f85d7c4c6680eb3330acfa0723d27a74ba0f1e3e7e5a911c9b"
+    },
+    {
+      "relPath": "Backend/src/controllers/companies.controller.js",
+      "size": 8009,
+      "sha256": "e4c7e4c2f595bc06af796c1af42c966bdad624ef8cada3eaeb4973050c266d37"
+    },
+    {
+      "relPath": "Backend/src/controllers/faculty.controller.js",
+      "size": 5835,
+      "sha256": "d18d3532c783ba5dee1ef4264eeefed1e3d32cbe86d89fcd44d091581aa89733"
+    },
+    {
+      "relPath": "Backend/src/controllers/institutions.controller.js",
+      "size": 10952,
+      "sha256": "c49e5fb418cf83f8843606e445a9ef5b5133d8bc5d3a4602d816dc76e1f6b199"
+    },
+    {
+      "relPath": "Backend/src/controllers/jobs.controller.js",
+      "size": 12052,
+      "sha256": "0a40441c59acab9d6dd0111f3a774136ecc2717d69755807f8a6a1b0e76a6411"
+    },
+    {
+      "relPath": "Backend/src/controllers/roadmap.controller.js",
+      "size": 6215,
+      "sha256": "feeb1088f7f7075105886771b47bda20d3c100dca3366223e07e60eaf208fe59"
+    },
+    {
+      "relPath": "Backend/src/controllers/skills.controller.js",
+      "size": 12412,
+      "sha256": "f9fb8ed4bc61e8681b9c3d7836463ee3d8bb28152b24652e0fd80b974d7554a0"
+    },
+    {
+      "relPath": "Backend/src/db/migrate.js",
+      "size": 3207,
+      "sha256": "25c562691935427ef53061164a07347a585ffd7939cdb2154c7ababe4e83cf42"
+    },
+    {
+      "relPath": "Backend/src/db/seed.js",
+      "size": 9321,
+      "sha256": "51aad161319b7b09b88ecd77c31fd364b105e0d16f934f06aaefecfdbdd604f7"
+    },
+    {
+      "relPath": "Backend/src/db/sync_index.js",
+      "size": 1794,
+      "sha256": "acd06bd431d9cbb7100c57a46fada217fa8cff2d7c10621acf6de8080508bcf5"
+    },
+    {
+      "relPath": "Backend/src/middleware/auth.js",
+      "size": 2301,
+      "sha256": "e0af768490420cf2223de8ae862bbde715824b9fe7d8a9b3bd2d4e5b9dc73bc8"
+    },
+    {
+      "relPath": "Backend/src/routes/admin.routes.js",
+      "size": 740,
+      "sha256": "f4dc6a855e29861fabd8c38c88561537d8163edf64f490a4fc4ed1788cbeb12c"
+    },
+    {
+      "relPath": "Backend/src/routes/analytics.routes.js",
+      "size": 2423,
+      "sha256": "76c738e37c574721df08e03686ff4854ddeef398ba3a106252e0eba9796d5950"
+    },
+    {
+      "relPath": "Backend/src/routes/assessments.routes.js",
+      "size": 764,
+      "sha256": "62c1ecce1e15771a2c1583c5ca9de1b9b9b7ae22198a3a8a6759db41eaa1f769"
+    },
+    {
+      "relPath": "Backend/src/routes/auth.routes.js",
+      "size": 392,
+      "sha256": "1243b352eef967794c147674bd8e7fcc7256f8b83ebcfb671ce885fda159ce03"
+    },
+    {
+      "relPath": "Backend/src/routes/candidates.routes.js",
+      "size": 1848,
+      "sha256": "959bcfba96854693d844bf42758d1f8c808ea0e00f97b79064d743e6a5e2c2fb"
+    },
+    {
+      "relPath": "Backend/src/routes/companies.routes.js",
+      "size": 1021,
+      "sha256": "000efd13660e8841a71f7810d80ad434d2a205fd77665c5e4dfea1af4fd64c08"
+    },
+    {
+      "relPath": "Backend/src/routes/faculty.routes.js",
+      "size": 893,
+      "sha256": "df70e092030b6ae6a42acc2806a8374ed4c8d981d59f606e251c10274ab82f0a"
+    },
+    {
+      "relPath": "Backend/src/routes/institutions.routes.js",
+      "size": 1153,
+      "sha256": "cd956881a8be8624b8c37156344eea5b47b09ef639329a8b5c504faa8bb86626"
+    },
+    {
+      "relPath": "Backend/src/routes/jobs.routes.js",
+      "size": 1411,
+      "sha256": "6da3a180fb459b608b112874238e21962f314b24f2aa4de71b92d5b0b248ea8a"
+    },
+    {
+      "relPath": "Backend/src/routes/roadmap.routes.js",
+      "size": 999,
+      "sha256": "17231e90efcd9b3024552acf968084fde15ba148c605e687b3b0f0e260520e2d"
+    },
+    {
+      "relPath": "Backend/src/routes/skills.routes.js",
+      "size": 1032,
+      "sha256": "0a97e1d7733302b664657721e25bad730e592ee1fb627a84088dea2348d2603d"
+    },
+    {
+      "relPath": "Backend/src/services/analytics.service.js",
+      "size": 30420,
+      "sha256": "36c5b7ab4b25097c57f927481550dec8a4016a901976d150e9bc71d8e90ff024"
+    },
+    {
+      "relPath": "Backend/src/services/assessment.service.js",
+      "size": 7198,
+      "sha256": "bdacbb9f801b30f2b916ededbc477ca94fa7866860c34b95e0ac7c309b4a3046"
+    },
+    {
+      "relPath": "Backend/src/services/indexing_queue.service.js",
+      "size": 5224,
+      "sha256": "6ce86b95079d44d478e960bb013c7e357c3b64c25193cc728ea99684e9a02e8e"
+    },
+    {
+      "relPath": "Backend/src/services/ml.service.js",
+      "size": 4823,
+      "sha256": "887b95543820e9c1d08ba06fdaf70661e99762db8afbc3fedc726682f4aa5624"
+    },
+    {
+      "relPath": "Backend/src/services/roadmap.service.js",
+      "size": 29192,
+      "sha256": "cab1acb9abc329272a54c3be098acb8d4221def2d604d86b11acb9e7b523ecdd"
+    },
+    {
+      "relPath": "Backend/src/services/skill_dna.service.js",
+      "size": 19125,
+      "sha256": "4a32ec909b436dc4acb1cc8a13bf9b3d5bc4a6139272a76ef8769fb33129e682"
+    },
+    {
+      "relPath": "Backend/src/utils/response.js",
+      "size": 290,
+      "sha256": "36022c83cfd9026f2b1935322f6bd7995f0897e2101efac104c1d69fba280fe8"
+    },
+    {
+      "relPath": "Backend/tests/auth.middleware.test.js",
+      "size": 3716,
+      "sha256": "9402535134946531147bd676a14c73cf3fa27c05f8e2bbf3a529fe6ef81de3a2"
+    },
+    {
+      "relPath": "Backend/tests/dynamic_indexing.integration.test.js",
+      "size": 11228,
+      "sha256": "ed4304d96bd3d2172e23c08f346c50e2d858a9ca2576f5096ed48e2cdb5ec703"
+    },
+    {
+      "relPath": "Backend/tests/http.integration.test.js",
+      "size": 3598,
+      "sha256": "fdcc7b40bcef10f9cb15dc0e10a00f9d79a820af567f2277a97d4e5b3053a10d"
+    },
+    {
+      "relPath": "Backend/tests/migrations.test.js",
+      "size": 2451,
+      "sha256": "ce87f652a56b90cab24553f22c9630edc2bb2861b86d541e825e17690bf42f5c"
+    },
+    {
+      "relPath": "Backend/tests/ml.contract.test.js",
+      "size": 1073,
+      "sha256": "01affff8208bd4e9da08933a9b10b1be27e0db7430f14d31b9c31ac33b5f19a8"
+    },
+    {
+      "relPath": "Backend/tests/phase10_analytics_intelligence.test.js",
+      "size": 27244,
+      "sha256": "503545fcb2cd38c1937069352d8da95f5fce2b8aaa5224ab4debf0b15ebba098"
+    },
+    {
+      "relPath": "Backend/tests/phase11_operational_readiness.test.js",
+      "size": 7243,
+      "sha256": "acbdbb1e227152570622025101485c67f855d99767cd721f2443c6f1c9ffb2c0"
+    },
+    {
+      "relPath": "Backend/tests/phase12_extension_evidence.test.js",
+      "size": 14589,
+      "sha256": "46e0d00b6047e8d67634c32a48c950679a0f185fe96f6882c07ebd6a01ea1057"
+    },
+    {
+      "relPath": "Backend/tests/phase5_e2e_workflows.test.js",
+      "size": 15642,
+      "sha256": "3254aaedbdbb2c1b2cfef84c86fd589f7e6ffe7553a880cc12b8623d1d3d4c41"
+    },
+    {
+      "relPath": "Backend/tests/phase6_1_e2e_live_matching.test.js",
+      "size": 7161,
+      "sha256": "7835847053d16bfd8c872f85a3b043dc550d8e827f4053d42a358a07aa198fcc"
+    },
+    {
+      "relPath": "Backend/tests/phase6_1_outbox_atomicity.test.js",
+      "size": 7720,
+      "sha256": "18fa917cb12f16055a92b0d4c034d13f4991cdae6e32a31dae311f73925ed913"
+    },
+    {
+      "relPath": "Backend/tests/phase7_six_role_workflows.test.js",
+      "size": 19152,
+      "sha256": "333286667df1db26c8914cc9b749d23c127ecf5d0521abca1ecb246b7c313db9"
+    },
+    {
+      "relPath": "Backend/tests/phase8_1_audit_semantics.test.js",
+      "size": 13552,
+      "sha256": "8cc3ebe4a9a872ddc42660896f3c1cb49e3a265cdb4644d7530be26da836b03f"
+    },
+    {
+      "relPath": "Backend/tests/phase8_skill_dna_engine.test.js",
+      "size": 15747,
+      "sha256": "217ad3bf1bd1d1bab5f8c3659dabf304baee37d72fb02f269e4fd8dda41daaf3"
+    },
+    {
+      "relPath": "Backend/tests/phase9_1_audit_semantics.test.js",
+      "size": 12397,
+      "sha256": "5b97f7707d1217c97b9878289606040df740b08ff6783714a3c6b0c1cb313a33"
+    },
+    {
+      "relPath": "Backend/tests/phase9_personalized_roadmaps.test.js",
+      "size": 16240,
+      "sha256": "976e47bac4ea0a8f660cb84b7850e67d84b35ce28692f8c946ae2d92038a6a61"
+    },
+    {
+      "relPath": "Backend/tests/postgres_persistence.integration.test.js",
+      "size": 13139,
+      "sha256": "29e016d4d2f2fbbe1e3fee1b7eecb22318223acf6c4b0a85af6eb2011a4816dd"
+    },
+    {
+      "relPath": "Backend/tests/roles.test.js",
+      "size": 2521,
+      "sha256": "bf0a50567b26f5fe9e8e63723763703eb8f183a71929eb48ab65cf75da288ee6"
+    },
+    {
+      "relPath": "Backend/tests/security.auth.test.js",
+      "size": 5591,
+      "sha256": "aa15f8cb42596aabf921518df3dbe4526211b67a19dd80773f976b51f5162e8b"
+    },
+    {
+      "relPath": "Backend/tests/six_roles_and_queue.integration.test.js",
+      "size": 14799,
+      "sha256": "715ea85a8138efa210e9676088b17ead27fedeef674a7fa0c0444e86fa5e8563"
+    },
+    {
+      "relPath": "Backend/tests/test_dynamic_indexing.py",
+      "size": 4000,
+      "sha256": "80144e8f084924790e2edd2c4a7e299f08de9b96f74fdc4432321df0610a1364"
+    },
+    {
+      "relPath": "Backend/tests/test_fastapi_contracts.py",
+      "size": 1975,
+      "sha256": "046fd285e697d054196c3ce69ba49abe5228c80c6e8636fdd8cc706d96be4193"
+    },
+    {
+      "relPath": "Backend/tests/test_fastapi_server.py",
+      "size": 3513,
+      "sha256": "ddd6cf8a9efacebc51d02b4a8d5acf532b1f9929ec367ead3feab81d35d9df36"
+    },
+    {
+      "relPath": "Backend/tests/test_live_index_durability.py",
+      "size": 4125,
+      "sha256": "a731d8385c09661554f342383b996858a91e6e91b339887d8e1e0eb75697e2b4"
+    },
+    {
+      "relPath": "Backend/tests/test_live_matching_pipeline.py",
+      "size": 2713,
+      "sha256": "d20d33a22cb0017da89b5ed4f62a717b026c423966f9956e1ac0ad2d4d934ae4"
+    },
+    {
+      "relPath": "Backend/tests/test_model_inference.py",
+      "size": 1785,
+      "sha256": "7ef62f62ec8b360a3d5ae78088d42a5d398e8c4ea6d43682715a79c7c65f5b09"
+    },
+    {
+      "relPath": "Backend/tests/verify_production_secrets.js",
+      "size": 3146,
+      "sha256": "0744615a412a178f446c83ded6f35a019361543f21b70d6e5426ee9f1b8fb408"
+    },
+    {
+      "relPath": "BrowserExtension/icons/icon-128.png",
+      "size": 305,
+      "sha256": "183e61d01b9551fb98240ff8ca85f8b2bdc2f8932037c31564a4e47b19f15b07"
+    },
+    {
+      "relPath": "BrowserExtension/icons/icon-16.png",
+      "size": 89,
+      "sha256": "490278b78f1859b799eb0345c9fe73eff88c8ea16dccdad6e37c5265e6ddb900"
+    },
+    {
+      "relPath": "BrowserExtension/icons/icon-48.png",
+      "size": 128,
+      "sha256": "e3c84e71aaa65fe6c41a64e06b8193940bbfb8df5745c5cf85120a838d4ecaeb"
+    },
+    {
+      "relPath": "BrowserExtension/manifest.json",
+      "size": 668,
+      "sha256": "ca149491a9f39a6a5bddca3b621d3a5c122559a4504926610c4ed1fc7edbd61b"
+    },
+    {
+      "relPath": "BrowserExtension/package.json",
+      "size": 488,
+      "sha256": "f0fdfddeb67e99252c707067d108a86ccd78e736a23fec3ffeed674dad6c7bcc"
+    },
+    {
+      "relPath": "BrowserExtension/popup.css",
+      "size": 8063,
+      "sha256": "06f344aeb40e85ff15644a9926b72d5f356e81ee25e2d4d5097142cbc2cd7a0f"
+    },
+    {
+      "relPath": "BrowserExtension/popup.html",
+      "size": 8688,
+      "sha256": "56368deb6f555dc8ff1cb738c9fc7ac0f8c71aecc57c2bdc855847701c6acbeb"
+    },
+    {
+      "relPath": "BrowserExtension/README.md",
+      "size": 4872,
+      "sha256": "d845373f901d574d7e36e0e34a8f0adfd8c9debe97fc49067ddf98bad0c052fb"
+    },
+    {
+      "relPath": "BrowserExtension/scripts/generate_icons.js",
+      "size": 2837,
+      "sha256": "a7454e553b693976b5f46ad3a08ab2c2b1159b20c2a746de62ede96feae37dc8"
+    },
+    {
+      "relPath": "BrowserExtension/src/extractor.js",
+      "size": 3116,
+      "sha256": "6df7bcddda7cdb3dffb0f0e200293151a157f2af3b3e00862d9a96b367a5fbfa"
+    },
+    {
+      "relPath": "BrowserExtension/src/handoff.js",
+      "size": 2087,
+      "sha256": "7d325f1863995db817c51d7431178528ec795d2a8c3f83d91b5b86dae02cc0c4"
+    },
+    {
+      "relPath": "BrowserExtension/src/popup.js",
+      "size": 11918,
+      "sha256": "f4eee833e0f742e4a41dab446da59d6f47af1f987aca478e2741f0bcdcac7792"
+    },
+    {
+      "relPath": "BrowserExtension/src/storage.js",
+      "size": 2492,
+      "sha256": "fa85e81dd00f57604dd60c7622b852b1bdbf58916b0756a02d783d26623cbd24"
+    },
+    {
+      "relPath": "BrowserExtension/src/validator.js",
+      "size": 5024,
+      "sha256": "1781e2d5f0d193ee96ac48238e2dad7c5dcc188f2e2ccc1f48c7f785f208b4c8"
+    },
+    {
+      "relPath": "BrowserExtension/tests/extractor.test.js",
+      "size": 2502,
+      "sha256": "94f2f4d2c433141aaccf168f4f8850ea263544faf11879ac5d4388e18dd203ec"
+    },
+    {
+      "relPath": "BrowserExtension/tests/handoff.test.js",
+      "size": 2928,
+      "sha256": "de6862f3972df77d48e27609524f8e89f112f263dab5a21fec52f6aa4710f6eb"
+    },
+    {
+      "relPath": "BrowserExtension/tests/validator.test.js",
+      "size": 5459,
+      "sha256": "5707a15e56663906f9dfc73b714627d7f86f0a0c413679fb8659d9b9e238e3b6"
+    },
+    {
+      "relPath": "Frontend/.env.example",
+      "size": 504,
+      "sha256": "21068fca4d2db61b0c107299a179b5050bd04a3acf3ed2e0a1f69f0ebe363ca4"
+    },
+    {
+      "relPath": "Frontend/.gitattributes",
+      "size": 68,
+      "sha256": "d8fb0de4792538f93822b2c0d235604921299d5e54a3d6ec7a6cb34536e8bf1e"
+    },
+    {
+      "relPath": "Frontend/.gitignore",
+      "size": 243,
+      "sha256": "d03dfd83780508157d9b08874134b31899683b949488dd728565f579323dba5e"
+    },
+    {
+      "relPath": "Frontend/eslint.config.js",
+      "size": 1040,
+      "sha256": "77ab5ef4e14f4d585bf44163bbe5db58e339cb1eaf61d4f4ce7a85a3a97abd35"
+    },
+    {
+      "relPath": "Frontend/index.html",
+      "size": 405,
+      "sha256": "ec2b266e612e3e983650d9bf6410a73221116aa2eb712f782c289e3b6d153016"
+    },
+    {
+      "relPath": "Frontend/package-lock.json",
+      "size": 177264,
+      "sha256": "5a2d91b7444cfd47870ed1fc49b72e66d34b1a45729c545476b98dd7f1003490"
+    },
+    {
+      "relPath": "Frontend/package.json",
+      "size": 1027,
+      "sha256": "a6501ca7796fc7fc8cfa53e5d874956ccb70086b40213fbebf2c5c03f5af2a8d"
+    },
+    {
+      "relPath": "Frontend/playwright.config.ts",
+      "size": 457,
+      "sha256": "8c469be5319fb699cd6c826c8a7e898ab95b0159b3849d2d98849b47eb0c86ea"
+    },
+    {
+      "relPath": "Frontend/postcss.config.js",
+      "size": 84,
+      "sha256": "b554e0e63770163ec5e5023f0cdbe7b13acbce9ae1665225667a358cf84ea89c"
+    },
+    {
+      "relPath": "Frontend/public/image.png",
+      "size": 225433,
+      "sha256": "7f7647c3412827a5da7d87e3b9e1a36253a99052ac550dfb5f5e6554ac2dba96"
+    },
+    {
+      "relPath": "Frontend/README.md",
+      "size": 6913,
+      "sha256": "1d8c5943abacbc17b1a90b756c6f14996ebdbe07b2e9eac510b591ac7d58e1ac"
+    },
+    {
+      "relPath": "Frontend/src/App.tsx",
+      "size": 880,
+      "sha256": "e6bd37119b465a43eda0c4f85d542bf27599bf561e45d3914149fe49350846a0"
+    },
+    {
+      "relPath": "Frontend/src/components/CandidateModal.tsx",
+      "size": 9854,
+      "sha256": "af056bbe325a21cdfacfafbe8955d455519d7f0626080667cd61c1030b625340"
+    },
+    {
+      "relPath": "Frontend/src/components/common/DomainPagePreview.tsx",
+      "size": 9344,
+      "sha256": "00e6ea905d2617e1e1f0cc25cba230a62d0e911369aa555b772e42b5464aef9a"
+    },
+    {
+      "relPath": "Frontend/src/components/EvidenceSnippet.tsx",
+      "size": 1125,
+      "sha256": "b73b93bcfa39f45e9200a4e4f2df3c1038894a81fc463e45ea0b567c22b2a6e2"
+    },
+    {
+      "relPath": "Frontend/src/components/layout/AppShell.tsx",
+      "size": 2134,
+      "sha256": "e2a1864d2ba992876a4bcbd555b0ae7139b07efe9f4375e2318832f520c8fe55"
+    },
+    {
+      "relPath": "Frontend/src/components/layout/Topbar.tsx",
+      "size": 14132,
+      "sha256": "e7e613216b5dc5d07a5a5a055035ac07f909649dbcf4e885a110769e83c03053"
+    },
+    {
+      "relPath": "Frontend/src/components/MatchCard.tsx",
+      "size": 5420,
+      "sha256": "8526b173c35a268946e9738d197e6495d771b072779e7bfff34104c122078044"
+    },
+    {
+      "relPath": "Frontend/src/components/Navbar.tsx",
+      "size": 5045,
+      "sha256": "a02e5d0b8001de8b481d5cdda7147d82388af5d980942a8ea02ff10a666a29be"
+    },
+    {
+      "relPath": "Frontend/src/components/ProtectedRoute.tsx",
+      "size": 1187,
+      "sha256": "568709a8e239ce680081b7f43935222a34744ccdd51db7987bc4b7177b7990b3"
+    },
+    {
+      "relPath": "Frontend/src/components/Sidebar.tsx",
+      "size": 8585,
+      "sha256": "b6fff37df69dbe00724fd466116d13b0cb4d6ead9670f3fdeed53ff3d3fb689d"
+    },
+    {
+      "relPath": "Frontend/src/components/SkillRadar.tsx",
+      "size": 1829,
+      "sha256": "e01eda659d4ecf6e76b5701d27f85c81e183be6b4dfd624ee33dd66a3cb8088c"
+    },
+    {
+      "relPath": "Frontend/src/components/ThemeToggle.tsx",
+      "size": 930,
+      "sha256": "bca171cb90964edf87d8d21f7e3224d82a02010c4dbacad9483b1911a936848a"
+    },
+    {
+      "relPath": "Frontend/src/config/navigation.ts",
+      "size": 10919,
+      "sha256": "d5e215d2a85741e315895fd31e4972952ae9e5e4ca81e110ce09514e9ebdc3a7"
+    },
+    {
+      "relPath": "Frontend/src/contexts/AuthContext.tsx",
+      "size": 6988,
+      "sha256": "dec04d3bf38808ed3679442dc1b964c81f237e8ddd833f234e9c723849617616"
+    },
+    {
+      "relPath": "Frontend/src/contexts/SidebarContext.tsx",
+      "size": 1477,
+      "sha256": "9c1c103297ae0d0fc3aaf26139a06b6fc1cfd63662e8bac9603632fd75d0cb01"
+    },
+    {
+      "relPath": "Frontend/src/contexts/ThemeContext.tsx",
+      "size": 1130,
+      "sha256": "b40d390c0d1ae7abdf6f8c4b3060441f052bfea51c6a71084d01517c832eeb79"
+    },
+    {
+      "relPath": "Frontend/src/data/candidates.ts",
+      "size": 5600,
+      "sha256": "3da2ccaf352448a232aa2b47d0b318664307e56c448f8153eeb3d423cd9f7b83"
+    },
+    {
+      "relPath": "Frontend/src/data/jobs.ts",
+      "size": 2021,
+      "sha256": "fdb69411b6126437647bafcda8053b749da3c91c0a91495ddb5ae865de4ddc39"
+    },
+    {
+      "relPath": "Frontend/src/data/mockFixtures.ts",
+      "size": 5111,
+      "sha256": "e384428e3a06499ec8403d396222a9687ef629af10a7c680874246a42d674684"
+    },
+    {
+      "relPath": "Frontend/src/data/parsedJDs.ts",
+      "size": 1463,
+      "sha256": "62283c0a6b96d44dcc366234388f0e6deeae9d4534e6259e42f742c06f85d546"
+    },
+    {
+      "relPath": "Frontend/src/index.css",
+      "size": 1766,
+      "sha256": "a445dbb2547c6ea35f0431ac9b27fd8284faa77cd51b1fab915c8c94d2a644e2"
+    },
+    {
+      "relPath": "Frontend/src/interfaces/Candidate.ts",
+      "size": 463,
+      "sha256": "c0b8c8dff053544ea3b5327b27fafb062144287d41d023ffd8b6f0c3b247fdc0"
+    },
+    {
+      "relPath": "Frontend/src/interfaces/index.ts",
+      "size": 1431,
+      "sha256": "ef6451c0df9ae8b73cb5cfcf2646a20cb2be613352ea96c24f54552c4c6d7211"
+    },
+    {
+      "relPath": "Frontend/src/interfaces/Job.ts",
+      "size": 205,
+      "sha256": "9c8414a5d96650e0e3e6fbf72af74441543301516d832984688968f16af8cbdd"
+    },
+    {
+      "relPath": "Frontend/src/interfaces/Match.ts",
+      "size": 224,
+      "sha256": "617fc5999c05852fc4b93a21c5a7aca31dbc2123268ee9c1523c6f4590b3bbea"
+    },
+    {
+      "relPath": "Frontend/src/interfaces/ParsedJD.ts",
+      "size": 224,
+      "sha256": "4e7150cd3304eaabbef4f6977966c031a259f00881d15912b1f010905e1279fd"
+    },
+    {
+      "relPath": "Frontend/src/main.tsx",
+      "size": 244,
+      "sha256": "a112586cf40c41a482ff80bb1278823cea9e943317900231409a18e9cec0f8d4"
+    },
+    {
+      "relPath": "Frontend/src/pages/Admin.tsx",
+      "size": 45010,
+      "sha256": "720b00e86e00788fea88e1fbb99038f3a0fd3cdf1f09966d98cd4ff25641e058"
+    },
+    {
+      "relPath": "Frontend/src/pages/candidate/CandidateAchievements.tsx",
+      "size": 21101,
+      "sha256": "a70b90f670418e1d9f9a86c036b459ccc09e691a271a87501ee818c132b9d0da"
+    },
+    {
+      "relPath": "Frontend/src/pages/candidate/CandidateApplications.tsx",
+      "size": 8408,
+      "sha256": "df2b411a53e187c54a6551d19e9c97df3a293b0a3350eb0264ec869afeb933d4"
+    },
+    {
+      "relPath": "Frontend/src/pages/candidate/CandidateAssessments.tsx",
+      "size": 25692,
+      "sha256": "4bd239760b7edb6b7d19a6dcb17f707633a0e7ae1c5834b8ce43c7abff76a83b"
+    },
+    {
+      "relPath": "Frontend/src/pages/candidate/CandidateDashboard.tsx",
+      "size": 35320,
+      "sha256": "36b8932d35ef7c9b43b2f6de26b1e603b94975b436b149767bce9cc282be2708"
+    },
+    {
+      "relPath": "Frontend/src/pages/candidate/CandidateJobs.tsx",
+      "size": 12396,
+      "sha256": "5a1e0f106c5b6b6a2396a406274f1b536789aecce3f666751edaa0156215a5fb"
+    },
+    {
+      "relPath": "Frontend/src/pages/candidate/CandidateLearning.tsx",
+      "size": 38216,
+      "sha256": "12d5d15eb5ac6152abedb83cd0e7c814928c17ff61961c17fe6a6cdc66ab2a04"
+    },
+    {
+      "relPath": "Frontend/src/pages/candidate/CandidateProfile.tsx",
+      "size": 9989,
+      "sha256": "9233a6f1af317921769d56f57ef722387bf234d5b91f3f272c6140628390242f"
+    },
+    {
+      "relPath": "Frontend/src/pages/candidate/CandidateSettings.tsx",
+      "size": 25406,
+      "sha256": "1a1d9f9f8f49f2ae5b92acfcfccdeb0600ee991f5df811b86e0ef0e185c0fcff"
+    },
+    {
+      "relPath": "Frontend/src/pages/candidate/CandidateSkillDNA.tsx",
+      "size": 30337,
+      "sha256": "8c1aaf31ac3c8baa9f5f9b3a05911577421235b4b5ea5eddf3598562c40d04a0"
+    },
+    {
+      "relPath": "Frontend/src/pages/college/CollegeAdminDashboard.tsx",
+      "size": 17754,
+      "sha256": "506ea16b29c6f1a4e395d8d1138da6f99f02d5a9fcd94f9c91751e962b24ffed"
+    },
+    {
+      "relPath": "Frontend/src/pages/college/CollegeFaculty.tsx",
+      "size": 6638,
+      "sha256": "2123ec72c687b79b9750a85047c0012898c4c50a4960aab6ef34391612196e45"
+    },
+    {
+      "relPath": "Frontend/src/pages/college/CollegeStudents.tsx",
+      "size": 13402,
+      "sha256": "f6dedb69a0752f658a4a2519287f4a869ad6fb9abf0251b37319188881062a24"
+    },
+    {
+      "relPath": "Frontend/src/pages/company/CompanyAdminDashboard.tsx",
+      "size": 13610,
+      "sha256": "6d0a60f390f3df965aac431d019606e41067e69c2cec6e4d1e20e9fa9c858fdb"
+    },
+    {
+      "relPath": "Frontend/src/pages/company/CompanyJobs.tsx",
+      "size": 8008,
+      "sha256": "261492871a53d2ddb33e5cf24305a6a84c1ec5b32ead54478074b282dbc7b6b3"
+    },
+    {
+      "relPath": "Frontend/src/pages/company/CompanyRecruiters.tsx",
+      "size": 10511,
+      "sha256": "5f821b0d6c7e32715d18e07854624955c1e631c9ed3b6a03ca281db10d61f074"
+    },
+    {
+      "relPath": "Frontend/src/pages/ExtensionImport.tsx",
+      "size": 20816,
+      "sha256": "6f2b4fb7c11976a156a908582ce8b932834b256bbdae2964c767cfdd99781957"
+    },
+    {
+      "relPath": "Frontend/src/pages/faculty/FacultyDashboard.tsx",
+      "size": 13402,
+      "sha256": "11d1cbd389a8310cd2f594a9215a0fe17a5e5b2c5321b8c55d62549eee8970e6"
+    },
+    {
+      "relPath": "Frontend/src/pages/faculty/FacultyStudents.tsx",
+      "size": 23382,
+      "sha256": "4577531bad6e94133d0dc5454e00b71271830396b7a1d15b3d3dda1f0f51c291"
+    },
+    {
+      "relPath": "Frontend/src/pages/ForgotPassword.tsx",
+      "size": 5041,
+      "sha256": "0cf672cd290a062b32e688adb0ceb409435aee4dace0fdf56ae7c269827282fe"
+    },
+    {
+      "relPath": "Frontend/src/pages/Landing.tsx",
+      "size": 28699,
+      "sha256": "d7fd25546791be7c851ce95f46d1598628e21fbfe20b60db30ad248a44ecab42"
+    },
+    {
+      "relPath": "Frontend/src/pages/Login.tsx",
+      "size": 12558,
+      "sha256": "bc852bf1cfb74a3f739d7d129320782f361735dcb48fb5a203eedc2e84263ea9"
+    },
+    {
+      "relPath": "Frontend/src/pages/NotFound.tsx",
+      "size": 915,
+      "sha256": "69ce570f85da3cb1dd8be99017e55103f51ed06bdbd4d15f6c8cd341012cdb70"
+    },
+    {
+      "relPath": "Frontend/src/pages/ProfileBuilder.tsx",
+      "size": 16718,
+      "sha256": "0512b7c8c722d5464d0dc531bf9a2b214c64244613c34991d74e252b406700bf"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/Analytics.tsx",
+      "size": 17507,
+      "sha256": "29683583a7afc1c3ef4d319c32abf898377f9d60c513d37aa62aa902e1e2a5ec"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/CandidateMatches.tsx",
+      "size": 35259,
+      "sha256": "97a6d3f3eb8e2dc1c237d5e13926050275a31995d0df58198d7f6072fdb89cac"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/CandidateProfile.tsx",
+      "size": 22902,
+      "sha256": "0a724db942921ba112f6238cd8ba7847cb0b838d67cb47aaa2c227aaf7cdc4af"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/Candidates.tsx",
+      "size": 13193,
+      "sha256": "73d8773422cbda7083eb737279e40307f2cc72e1e4d7f4616d810a16145e00f2"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/CreateJob.tsx",
+      "size": 19902,
+      "sha256": "78a969f7146d428bf574aa2ae38304193b3fae041063f0777b140cc2a2207a2f"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/Interviews.tsx",
+      "size": 14494,
+      "sha256": "9bb57ecbb69ca47f7b749f8e0a6bb1c612a699c849d3c453e900371e3991b86c"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/JobDetails.tsx",
+      "size": 18487,
+      "sha256": "9522b322e13be18a65d7080c7711545d5f7dd87f984143fbaea54f1c8d201156"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/JobListings.tsx",
+      "size": 13535,
+      "sha256": "f67a31e3e22da0d370b6c2ce7f54d1b3b2ed07db0a2f6e4b68f5b8d33ef36891"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/Matches.tsx",
+      "size": 16525,
+      "sha256": "5d120927e110750dc1319dd3127eb39ab5d39f2765cfa095d5d26546cbde901f"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/RecruiterDashboard.tsx",
+      "size": 33382,
+      "sha256": "77f9b98754f43cf3de7f2676d1062093fb51b022d1801a179dc2755de63686b8"
+    },
+    {
+      "relPath": "Frontend/src/pages/recruiter/Settings.tsx",
+      "size": 26545,
+      "sha256": "9402e2020061925349c1cda4630f865156f297e2b3f7ad0602c858e676b4e7cb"
+    },
+    {
+      "relPath": "Frontend/src/pages/RolePlaceholder.tsx",
+      "size": 2483,
+      "sha256": "e42671d6f50fe8042ae57d5dc54e153d550b80a15669c55c412bbbb56c719c10"
+    },
+    {
+      "relPath": "Frontend/src/pages/Signup.tsx",
+      "size": 12987,
+      "sha256": "5bd5a4454b40db071be59e6a72e15d38daedf74253f9f3255f96471ad2abc0be"
+    },
+    {
+      "relPath": "Frontend/src/pages/Unauthorized.tsx",
+      "size": 2548,
+      "sha256": "f9b8fa74b40db138bae05aa417ddba1276258260d2c770f44988c95c28f7c881"
+    },
+    {
+      "relPath": "Frontend/src/router.tsx",
+      "size": 26344,
+      "sha256": "09e9fc940a8f627e97dc90f18f0f20f876c5e7552bd5ec18187cb3417661c218"
+    },
+    {
+      "relPath": "Frontend/src/services/api.ts",
+      "size": 3122,
+      "sha256": "7604765291d325350e970482f482dc81d6aac8885b2398c999fed4b6a39f6962"
+    },
+    {
+      "relPath": "Frontend/src/types/index.ts",
+      "size": 686,
+      "sha256": "6980b5b4ffad8aa1878540a8f980ab03bde4677f393b8d60ec58323d478056ba"
+    },
+    {
+      "relPath": "Frontend/src/types/roles.ts",
+      "size": 2116,
+      "sha256": "086218d4ae981e2f186326ec51cc4b7e1fa1adcdb4d066a76c4b61efd0e46f95"
+    },
+    {
+      "relPath": "Frontend/src/vite-env.d.ts",
+      "size": 39,
+      "sha256": "424faf9241dd699dda995b367ed36665732da1e6ec1f33b2fd40394488ecac92"
+    },
+    {
+      "relPath": "Frontend/tailwind.config.js",
+      "size": 1576,
+      "sha256": "73a59311d6aa76decbdd1fed33de93d839e19e14b064cbd6fe035721ad6922ba"
+    },
+    {
+      "relPath": "Frontend/tests/e2e/phase10_analytics_workflows.spec.ts",
+      "size": 4816,
+      "sha256": "5e8b5d0d553dc283dc36fc890e442ded82566dbe00e4a682708c655bc92d7b17"
+    },
+    {
+      "relPath": "Frontend/tests/e2e/phase12_extension_import.spec.ts",
+      "size": 4780,
+      "sha256": "13244965d056d2e89e503e7f7a28c2e42c200367db7bb16304f3348ced423100"
+    },
+    {
+      "relPath": "Frontend/tests/e2e/phase6_mvp_workflows.spec.ts",
+      "size": 5984,
+      "sha256": "2503e47ae4621bfe6439238b6ab57864620ee8763e4b550b225ee3e144daddfe"
+    },
+    {
+      "relPath": "Frontend/tests/e2e/phase7_six_role_workflows.spec.ts",
+      "size": 4558,
+      "sha256": "52b12409346958428b57d30eedc19b9f9bd47c1cb3f543e21c05981f714f7074"
+    },
+    {
+      "relPath": "Frontend/tests/e2e/phase9_roadmap_workflows.spec.ts",
+      "size": 2725,
+      "sha256": "e047565cca33541b22f794e3cd5030741272d85247426f4d4fae04ac95f6b4ee"
+    },
+    {
+      "relPath": "Frontend/tests/phase4_1_regression.test.js",
+      "size": 6701,
+      "sha256": "4c15ed1254f47123b0f5b6817bd951617da4700bcba50a21dca9e1127346b867"
+    },
+    {
+      "relPath": "Frontend/tests/phase4_navigation_and_demo.test.js",
+      "size": 4334,
+      "sha256": "5a9d94b92283639b1cb6b4fc7baf1f7d19081b2a456f7c3366dcd15659eac873"
+    },
+    {
+      "relPath": "Frontend/tests/roles.test.js",
+      "size": 3484,
+      "sha256": "7dc00bec7956bb2d318f94d9eed5b3c7aa1b68f1d91c67efed253dad1754c920"
+    },
+    {
+      "relPath": "Frontend/tsconfig.app.json",
+      "size": 576,
+      "sha256": "30d42e9a4ba46625b435f4783adfc6817037ff82fe184a0f9ba6765e09b19d67"
+    },
+    {
+      "relPath": "Frontend/tsconfig.json",
+      "size": 581,
+      "sha256": "a468d404fde3c4a1ada83e607ac7aaefa81cd1814a27663ca2fd51dcce4d1082"
+    },
+    {
+      "relPath": "Frontend/tsconfig.node.json",
+      "size": 221,
+      "sha256": "78e7396f84d5591ed39fd492fa7361da8d293b9921e61130bd42d1bc29c421f9"
+    },
+    {
+      "relPath": "Frontend/vite-env.d.ts",
+      "size": 36,
+      "sha256": "985c030bdc7afc386f05f53c7eb27d8765eb3c61e471277bc28b983d65c3d92d"
+    },
+    {
+      "relPath": "Frontend/vite.config.ts",
+      "size": 137,
+      "sha256": "20055ba88254bed7bec977c757e340d4e165a7d863d3c14c1effcfd682118a15"
+    },
+    {
+      "relPath": "PHASE10_1_ANALYTICS_AND_MATCHING_AUDIT_REPORT.md",
+      "size": 23523,
+      "sha256": "6eecd739802ed66aae2d4f99349720c65791fb1a088ebeaf93d2041e8eeddf23"
+    },
+    {
+      "relPath": "PHASE10_SKILL_INTELLIGENCE_ANALYTICS_REPORT.md",
+      "size": 25873,
+      "sha256": "ac499be9d14204600fe45ea70e8acd142b7e8614e769d3cc6118e69b39dc74a1"
+    },
+    {
+      "relPath": "PHASE11_1_COLD_START_AND_BACKUP_VERIFICATION_REPORT.md",
+      "size": 29009,
+      "sha256": "152c85adf7942286df36547a2f053ff3e56b00582116ce84481497746020bb4a"
+    },
+    {
+      "relPath": "PHASE11_OPERATIONAL_READINESS_REPORT.md",
+      "size": 24895,
+      "sha256": "2122ce54111bfb791025f60fd094e4805ea17ea255505355a4b8c9c1d25bdea1"
+    },
+    {
+      "relPath": "PHASE12_1_EXTENSION_SECURITY_AND_OPERATIONAL_AUDIT_REPORT.md",
+      "size": 26760,
+      "sha256": "64207790a930d5100eda49213d71a3cb8b04c2b3730b5f1f1753d85c37a76ec1"
+    },
+    {
+      "relPath": "PHASE12_BROWSER_EXTENSION_EVIDENCE_CAPTURE_REPORT.md",
+      "size": 25681,
+      "sha256": "cf5c430f0f969a7bf7aadf53b615969337e93c9a809cafd94bf5c9c35a80beb1"
+    },
+    {
+      "relPath": "PHASE2_IMPLEMENTATION_REPORT.md",
+      "size": 11672,
+      "sha256": "b7eaa0ed62b82f9f966f2dc699a92c9281d53681113c8a3eb8b49c7cd78970d4"
+    },
+    {
+      "relPath": "PHASE3_RUNTIME_VERIFICATION_REPORT.md",
+      "size": 18994,
+      "sha256": "685a6a53ffee8f6eaed7616cb0929b5793e882867ed64d6f0eb75629ee25cfc6"
+    },
+    {
+      "relPath": "PHASE4_1_REGRESSION_REPORT.md",
+      "size": 14445,
+      "sha256": "c45451b9d315ac652ea1fee3fc1dfa762982e92ea8af4ddad49ca4647ca051d0"
+    },
+    {
+      "relPath": "PHASE4_UI_IMPLEMENTATION_REPORT.md",
+      "size": 12529,
+      "sha256": "990c72b4d7ca50e15584c5fca4ae5da4049aed613c110f434893bab3299463d8"
+    },
+    {
+      "relPath": "PHASE5_1_RUNTIME_UNBLOCKING_REPORT.md",
+      "size": 14236,
+      "sha256": "be8d3492d51d884e80538e206e8846dc831714489f8d5d0a26fe0dd07da8a307"
+    },
+    {
+      "relPath": "PHASE5_2_POSTGRESQL_MIGRATION_REPORT.md",
+      "size": 19147,
+      "sha256": "bab8646fe0666ac95910e30cac6d5ae117b482dee726d373056475e93681f4cf"
+    },
+    {
+      "relPath": "PHASE5_3_DYNAMIC_CANDIDATE_INDEXING_REPORT.md",
+      "size": 22779,
+      "sha256": "f5925838b2b474c9b858d181e95aaa4d107aa5fd7e9017074dca9b7981b06425"
+    },
+    {
+      "relPath": "PHASE5_E2E_MVP_VERIFICATION_REPORT.md",
+      "size": 19105,
+      "sha256": "a729abf8d8d59756d78b6b806f5c4377bf671e1cbabed276cf543e16fffa726e"
+    },
+    {
+      "relPath": "PHASE6_1_INDEPENDENT_VERIFICATION_REPORT.md",
+      "size": 32682,
+      "sha256": "50df487ceaa1b92ad2b6abd9c8098bd6db30fd631245e5358c8d9cd0c3c9f88f"
+    },
+    {
+      "relPath": "PHASE6_MVP_OPERATIONALIZATION_AND_E2E_DELIVERY_REPORT.md",
+      "size": 25149,
+      "sha256": "3c7fa94b4e2f2f174d08a8f699ca777cdd3f53814368f4046cf8d1a280e5e21e"
+    },
+    {
+      "relPath": "PHASE7_1_FINAL_OPERATIONAL_VERIFICATION_REPORT.md",
+      "size": 25912,
+      "sha256": "bc78f950f8602cf614f0f03f2c94606c6e3e93eb1b4ce83477d8cacbbb92f7c1"
+    },
+    {
+      "relPath": "PHASE7_SIX_ROLE_PRODUCT_WORKFLOWS_REPORT.md",
+      "size": 31601,
+      "sha256": "c51094c52f845586c147cc0113034941539e7a12fb07a42718b1c2911f6fd4a4"
+    },
+    {
+      "relPath": "PHASE8_1_SKILL_DNA_VALIDATION_REPORT.md",
+      "size": 24918,
+      "sha256": "046dac4e98f6223150a67f2f747374e5058da500d77be0eea26a81523987a24e"
+    },
+    {
+      "relPath": "PHASE8_SKILL_DNA_ENGINE_REPORT.md",
+      "size": 19335,
+      "sha256": "26ee71dbe24520bd9c2d691019a05f2979a9d78c43ab41440cea8e36a06e9422"
+    },
+    {
+      "relPath": "PHASE9_1_ROADMAP_VALIDATION_REPORT.md",
+      "size": 19593,
+      "sha256": "64ab09ee577c3d189a61295d824d81afc779fec4caf1d4586445ef8cc6cf4179"
+    },
+    {
+      "relPath": "PHASE9_PERSONALIZED_DEVELOPMENT_ROADMAP_REPORT.md",
+      "size": 21465,
+      "sha256": "660c2e029f4ed259fa42cd04c7aacb7ef3c8d04aaad25208549e754e1aa40d59"
+    },
+    {
+      "relPath": "PROJECT_BASELINE_AUDIT.md",
+      "size": 48774,
+      "sha256": "5dbc5a88dbab89514fd0fb561275d34161c721b9068dd54455a079ad55044b9e"
+    },
+    {
+      "relPath": "README.md",
+      "size": 13108,
+      "sha256": "925333c23acb07b2873f4de11de3f599d35de94758d374513c0679ba628ec7c9"
+    },
+    {
+      "relPath": "scripts/dev/health.ps1",
+      "size": 8535,
+      "sha256": "b6ff9757ac35f8d948c92f25fbbebff441d6ab998ca1cd5864f7935c55740a7e"
+    },
+    {
+      "relPath": "scripts/dev/start.ps1",
+      "size": 10696,
+      "sha256": "2864e0c0fca54a22b5c776ec3775f948fa906c4db257dc2c412cc36a3f352859"
+    },
+    {
+      "relPath": "scripts/dev/status.ps1",
+      "size": 5259,
+      "sha256": "dba642bf638c2151361baab21afc7bd413e20e4689bd0d58a1b521091d83c72e"
+    },
+    {
+      "relPath": "scripts/dev/stop.ps1",
+      "size": 3715,
+      "sha256": "f423dfae2c67e4c9da9bff96e53434269cf50fd78ed538e2d50fed886bc803c3"
+    }
+  ]
+}

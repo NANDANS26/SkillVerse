@@ -4,7 +4,11 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "migrate": "node src/db/migrate.js",
+    "seed": "node src/db/seed.js",
+    "sync:index": "node src/db/sync_index.js",
+    "test": "node --test --test-concurrency=1 tests/**/*.test.js"
   },
   "dependencies": {
     "axios": "^1.7.0",
@@ -13,6 +17,6 @@
     "dotenv": "^16.4.0",
     "express": "^4.19.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.9.0"
+    "pg": "^8.23.1"
   }
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { 
   Search, 
-  Filter, 
+   
   Plus, 
   Calendar, 
   MapPin, 
@@ -20,12 +20,12 @@ import {
   CheckCircle,
   XCircle
 } from 'lucide-react'
-import Sidebar from '../../components/Sidebar'
+// Sidebar provided by AppShell
 import { useAuth } from '../../contexts/AuthContext'
 import { Job } from '../../interfaces'
 
 export default function RecruiterDashboard() {
-  const { user } = useAuth()
+  const { user, isDemoMode } = useAuth()
   const [jobs, setJobs] = useState<Job[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('all')
@@ -39,7 +39,7 @@ export default function RecruiterDashboard() {
     interviewsScheduled: 0,
     responseRate: 0
   })
-  const [notifications, setNotifications] = useState([
+  const [notifications] = useState([
     { id: 1, message: 'New candidate matched for Senior Frontend role', time: '10 min ago', read: false },
     { id: 2, message: 'Interview scheduled with Alex Johnson', time: '1 hour ago', read: true },
     { id: 3, message: 'Job posting "Full Stack Engineer" is live', time: '2 hours ago', read: true },
@@ -156,24 +156,15 @@ export default function RecruiterDashboard() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <div className="flex-1 lg:ml-64 p-6 flex items-center justify-center">
-          <div className="text-center">
-            <div className="h-16 w-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-300">Loading dashboard...</p>
-          </div>
-        </div>
+      <div className="py-20 text-center">
+        <div className="h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-sm text-gray-600 dark:text-gray-300">Loading dashboard metrics...</p>
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-screen page-transition">
-      <Sidebar />
-      
-      <div className="flex-1 lg:ml-64 p-6">
-        <div className="max-w-7xl mx-auto">
+    <div className="space-y-6 page-transition">
           {/* Header with Welcome & Notifications */}
           <div className="mb-8">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -184,6 +175,11 @@ export default function RecruiterDashboard() {
                 <p className="text-gray-600 dark:text-gray-300 mt-2">
                   Here's what's happening with your recruitment today
                 </p>
+                {isDemoMode && (
+                  <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-xl text-xs text-amber-800 dark:text-amber-300">
+                    <strong>Simulated Pipeline Telemetry (Demonstration Model):</strong> Displaying benchmark recruitment metrics, sample requisitions, and demonstration candidate streams.
+                  </div>
+                )}
               </div>
               
               <div className="flex items-center space-x-4">
@@ -659,8 +655,6 @@ export default function RecruiterDashboard() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
     </div>
   )
 }

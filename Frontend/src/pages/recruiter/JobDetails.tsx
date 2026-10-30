@@ -12,10 +12,9 @@ import {
   Edit,
   Trash2,
   Eye,
-  Filter,
-  Search
+    
 } from 'lucide-react'
-import Sidebar from '../../components/Sidebar'
+// Sidebar rendered by AppShell
 import { Job, ParsedJD } from '../../interfaces'
 
 export default function JobDetails() {
@@ -98,46 +97,32 @@ export default function JobDetails() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <div className="flex-1 lg:ml-64 p-6 flex items-center justify-center">
-          <div className="text-center">
-            <div className="h-16 w-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-300">Loading job details...</p>
-          </div>
-        </div>
+      <div className="py-20 text-center">
+        <div className="h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-sm text-gray-600 dark:text-gray-300">Loading job details...</p>
       </div>
-    )
+    );
   }
 
   if (!job) {
     return (
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <div className="flex-1 lg:ml-64 p-6 flex items-center justify-center">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Job not found
-            </h2>
-            <Link
-              to="/recruiter/dashboard"
-              className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              <ArrowLeft className="mr-2" size={20} />
-              Back to Dashboard
-            </Link>
-          </div>
-        </div>
+      <div className="py-20 text-center">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          Job not found
+        </h2>
+        <Link
+          to="/recruiter/dashboard"
+          className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+        >
+          <ArrowLeft className="mr-2" size={20} />
+          Back to Dashboard
+        </Link>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="flex min-h-screen page-transition">
-      <Sidebar />
-      
-      <div className="flex-1 lg:ml-64 p-6">
-        <div className="max-w-7xl mx-auto">
+    <div className="space-y-6 page-transition">
           {/* Header */}
           <div className="mb-8">
             <Link
@@ -401,8 +386,6 @@ export default function JobDetails() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
     </div>
   )
 }

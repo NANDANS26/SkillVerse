@@ -1,321 +1,199 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+// Frontend/src/components/Sidebar.tsx
+import { Link, useLocation } from 'react-router-dom';
 import { 
-  Home, 
-  Briefcase, 
-  User, 
-  Settings, 
-  BarChart3, 
-  FileText,
-  Users,
+  ChevronLeft, 
+  ChevronRight, 
+  LogOut, 
+  Sparkles,
   Building,
-  LogOut,
   GraduationCap,
+  Briefcase,
   Shield,
-  PlusCircle,
-  Target,
-  List,
-  MessageSquare,
-  HelpCircle,
-  TrendingUp,
-  Award,
-  Calendar,
-  Mail,
-  Download,
-  Search,
-  Star,
-  BookOpen,
-  Rocket,
-  Trophy,
-  Zap
-} from 'lucide-react'
-import { useSidebar } from '../contexts/SidebarContext'
-import { useAuth } from '../contexts/AuthContext'
-import { useState } from 'react'
-
-const recruiterLinks = [
-  { icon: Briefcase, label: 'Dashboard', path: '/recruiter/dashboard' },
-  { icon: PlusCircle, label: 'Create Job', path: '/recruiter/create-job' },
-  { icon: List, label: 'Job Listings', path: '/recruiter/jobs' },
-  { icon: Users, label: 'Candidates', path: '/recruiter/candidates' },
-  { icon: Target, label: 'Matches', path: '/recruiter/matches' },
-  { icon: BarChart3, label: 'Analytics', path: '/recruiter/analytics' },
-  { icon: Calendar, label: 'Interviews', path: '/recruiter/interviews' },
-  { icon: Settings, label: 'Settings', path: '/recruiter/settings' },
-]
-
-const candidateLinks = [
-  { icon: Home, label: 'Dashboard', path: '/candidate/dashboard' },
-  { icon: User, label: 'Profile', path: '/candidate/profile' },
-  { icon: Target, label: 'Recommended Jobs', path: '/candidate/jobs' },
-  { icon: FileText, label: 'Applications', path: '/candidate/applications' },
-  { icon: BookOpen, label: 'Learning Path', path: '/candidate/learning' },
-  { icon: Trophy, label: 'Achievements', path: '/candidate/achievements' },
-  { icon: Settings, label: 'Settings', path: '/candidate/settings' },
-]
+  User as UserIcon
+} from 'lucide-react';
+import { useSidebar } from '../contexts/SidebarContext';
+import { useAuth } from '../contexts/AuthContext';
+import { ROLE_LABELS } from '../types/roles';
+import { getNavigationForRole } from '../config/navigation';
 
 export default function Sidebar() {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const { isOpen, closeSidebar } = useSidebar()
-  const { user, logout } = useAuth()
-  const [showQuickStats, setShowQuickStats] = useState(true)
+  const location = useLocation();
+  const { isOpen, closeSidebar, isCollapsed, toggleCollapse } = useSidebar();
+  const { user, logout, isDemoMode } = useAuth();
   
-  if (!user) return null
-  
-  const isRecruiter = user.role === 'recruiter'
-  const isCandidate = user.role === 'student'
-  const links = isRecruiter ? recruiterLinks : candidateLinks
-  
-  const handleLogout = () => {
-    logout()
-    navigate('/')
-    closeSidebar()
-  }
+  if (!user) return null;
+
+  const currentRole = user.role;
+  const navItems = getNavigationForRole(currentRole);
 
   const getRoleIcon = () => {
-    switch (user.role) {
+    switch (currentRole) {
       case 'student':
-        return <GraduationCap className="h-5 w-5 text-blue-500" />
+        return <GraduationCap className="h-4 w-4 text-blue-500" />;
       case 'recruiter':
-        return <Briefcase className="h-5 w-5 text-purple-500" />
-      case 'admin':
-        return <Shield className="h-5 w-5 text-green-500" />
+        return <Briefcase className="h-4 w-4 text-purple-500" />;
+      case 'super_admin':
+        return <Shield className="h-4 w-4 text-emerald-500" />;
+      case 'college_admin':
+      case 'faculty':
+      case 'company_admin':
+        return <Building className="h-4 w-4 text-indigo-500" />;
       default:
-        return <User className="h-5 w-5 text-gray-500" />
+        return <UserIcon className="h-4 w-4 text-gray-500" />;
     }
-  }
-
-  const getRoleLabel = () => {
-    switch (user.role) {
-      case 'student':
-        return 'Candidate'
-      case 'recruiter':
-        return 'Recruiter'
-      case 'admin':
-        return 'Administrator'
-      default:
-        return user.role
-    }
-  }
+  };
 
   const isActive = (path: string) => {
-    if (path === '/candidate/dashboard' || path === '/recruiter/dashboard') {
-      return location.pathname === path
+    if (path === '/student/dashboard' || path === '/recruiter/dashboard' || path === '/admin') {
+      return location.pathname === path || (path === '/student/dashboard' && location.pathname === '/candidate/dashboard');
     }
-    return location.pathname.startsWith(path)
-  }
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <>
-      {/* Overlay for mobile */}
+      {/* Overlay backdrop for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity"
           onClick={closeSidebar}
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar */}
-      <aside className={`
-        fixed top-0 left-0 h-full w-64 glass-effect border-r border-gray-200/50 dark:border-gray-700/50
-        transform transition-transform duration-300 z-50 pt-16
-        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
-        <div className="h-full flex flex-col">
-          {/* User Profile */}
-          <div className="p-6 border-b border-gray-200/50 dark:border-gray-700/50">
-            <div className="flex items-center space-x-3 mb-3">
-              <div className="h-12 w-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <User className="h-6 w-6 text-white" />
+      {/* Sidebar Container */}
+      <aside
+        className={`
+          fixed top-0 left-0 h-full bg-white dark:bg-gray-900 border-r border-gray-200/80 dark:border-gray-800
+          transition-all duration-300 z-50 flex flex-col justify-between
+          ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          ${isCollapsed ? 'lg:w-[72px]' : 'lg:w-[260px]'}
+          w-[260px]
+        `}
+      >
+        {/* Top Header / Branding */}
+        <div>
+          <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200/80 dark:border-gray-800">
+            <Link 
+              to="/" 
+              className={`flex items-center gap-2.5 overflow-hidden transition-all ${isCollapsed ? 'lg:justify-center w-full' : ''}`}
+            >
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white font-black text-sm shrink-0 shadow-md">
+                SV
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 dark:text-white truncate">
-                  {user.name}
-                </h3>
-                <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                  {getRoleIcon()}
-                  <span className="truncate">{getRoleLabel()}</span>
+              {!isCollapsed && (
+                <div className="flex flex-col">
+                  <span className="font-extrabold text-base tracking-tight text-gray-900 dark:text-white leading-none">
+                    Skill<span className="text-blue-600 dark:text-blue-400">Verse</span>
+                  </span>
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-gray-400 mt-0.5">
+                    Intelligence OS
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div className="text-xs text-gray-600 dark:text-gray-300 truncate">
-              {user.email}
-            </div>
+              )}
+            </Link>
+
+            {/* Desktop collapse toggle button */}
+            <button
+              type="button"
+              onClick={toggleCollapse}
+              className="hidden lg:flex p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+            </button>
           </div>
 
-          {/* Navigation */}
-          <div className="flex-1 overflow-y-auto px-4 py-6">
-            <div className="mb-8">
-              <h3 className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold mb-4">
-                {isRecruiter ? 'Recruiter Navigation' : 'Candidate Navigation'}
-              </h3>
-              <nav className="space-y-1">
-                {links.map((link) => {
-                  const Icon = link.icon
-                  const active = isActive(link.path)
-                  
-                  return (
-                    <Link
-                      key={link.path}
-                      to={link.path}
-                      onClick={closeSidebar}
-                      className={`
-                        flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200
-                        ${active 
-                          ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-600 dark:text-blue-400 border-l-4 border-blue-500' 
-                          : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50'
-                        }
-                      `}
-                    >
-                      <Icon size={20} />
-                      <span className="font-medium">{link.label}</span>
-                    </Link>
-                  )
-                })}
-              </nav>
-            </div>
-
-            {/* Quick Stats - Different for Recruiter vs Candidate */}
-            {showQuickStats && (
-              <div className="mb-8">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 
-                    className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
-                    onClick={() => setShowQuickStats(!showQuickStats)}
-                  >
-                    Quick Stats
-                  </h3>
-                  <TrendingUp size={14} className="text-green-500" />
-                </div>
-                
-                {isRecruiter ? (
-                  <div className="space-y-3">
-                    <div className="p-3 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-gray-600 dark:text-gray-300">Active Jobs</span>
-                        <span className="text-sm font-bold text-blue-600 dark:text-blue-400">12</span>
-                      </div>
-                      <div className="h-1 bg-blue-200 dark:bg-blue-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-500" style={{ width: '75%' }} />
-                      </div>
-                    </div>
-                    
-                    <div className="p-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-gray-600 dark:text-gray-300">Pending Matches</span>
-                        <span className="text-sm font-bold text-purple-600 dark:text-purple-400">8</span>
-                      </div>
-                      <div className="h-1 bg-purple-200 dark:bg-purple-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500" style={{ width: '40%' }} />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    <div className="p-3 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-gray-600 dark:text-gray-300">Applied Jobs</span>
-                        <span className="text-sm font-bold text-blue-600 dark:text-blue-400">12</span>
-                      </div>
-                      <div className="h-1 bg-blue-200 dark:bg-blue-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-500" style={{ width: '60%' }} />
-                      </div>
-                    </div>
-                    
-                    <div className="p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-gray-600 dark:text-gray-300">Profile Score</span>
-                        <span className="text-sm font-bold text-green-600 dark:text-green-400">95%</span>
-                      </div>
-                      <div className="h-1 bg-green-200 dark:bg-green-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-green-500 to-emerald-500" style={{ width: '95%' }} />
-                      </div>
-                    </div>
-                    
-                    <div className="p-3 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 rounded-xl">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-gray-600 dark:text-gray-300">Interviews</span>
-                        <span className="text-sm font-bold text-orange-600 dark:text-orange-400">5</span>
-                      </div>
-                      <div className="h-1 bg-orange-200 dark:bg-orange-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-orange-500 to-yellow-500" style={{ width: '50%' }} />
-                      </div>
-                    </div>
-                  </div>
-                )}
+          {/* User Role Card */}
+          <div className={`p-3 border-b border-gray-100 dark:border-gray-800/80 bg-gray-50/50 dark:bg-gray-800/30 ${isCollapsed ? 'lg:p-2 lg:text-center' : ''}`}>
+            <div className={`flex items-center gap-2.5 ${isCollapsed ? 'lg:justify-center' : ''}`}>
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white shrink-0 font-bold text-xs shadow-sm">
+                {user.name.charAt(0).toUpperCase()}
               </div>
-            )}
-
-            {/* Action Button */}
-            <div className="mb-8">
-              {isCandidate ? (
-                <Link
-                  to="/candidate/jobs"
-                  onClick={closeSidebar}
-                  className="flex items-center justify-center space-x-2 w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all"
-                >
-                  <Rocket size={20} />
-                  <span>Find Jobs</span>
-                </Link>
-              ) : (
-                <Link
-                  to="/recruiter/create-job"
-                  onClick={closeSidebar}
-                  className="flex items-center justify-center space-x-2 w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all"
-                >
-                  <PlusCircle size={20} />
-                  <span>Post New Job</span>
-                </Link>
+              {!isCollapsed && (
+                <div className="min-w-0 flex-1">
+                  <div className="text-xs font-bold text-gray-900 dark:text-white truncate">
+                    {user.name}
+                  </div>
+                  <div className="flex items-center gap-1 text-[11px] text-gray-500 dark:text-gray-400 truncate">
+                    {getRoleIcon()}
+                    <span className="truncate">{ROLE_LABELS[currentRole]}</span>
+                  </div>
+                </div>
               )}
             </div>
 
-            {/* Help & Support */}
-            <div className="p-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl">
-              <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                Need Help?
-              </h4>
-              <div className="space-y-2">
-                <Link
-                  to="/help"
-                  className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                  onClick={closeSidebar}
-                >
-                  <HelpCircle size={16} />
-                  <span>Help Center</span>
-                </Link>
-                <Link
-                  to="/contact"
-                  className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                  onClick={closeSidebar}
-                >
-                  <MessageSquare size={16} />
-                  <span>Contact Support</span>
-                </Link>
+            {/* Demo Mode Badge */}
+            {isDemoMode && !isCollapsed && (
+              <div className="mt-2 text-[10px] font-semibold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 rounded-md px-2 py-0.5 flex items-center gap-1">
+                <Sparkles size={11} className="text-amber-500 shrink-0" />
+                <span className="truncate">Simulated Demo Session</span>
               </div>
-            </div>
+            )}
           </div>
 
-          {/* Footer */}
-          <div className="p-6 border-t border-gray-200/50 dark:border-gray-700/50">
-            <Link
-              to="/"
-              onClick={closeSidebar}
-              className="flex items-center space-x-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50 rounded-xl transition-colors mb-2"
-            >
-              <Home size={20} />
-              <span className="font-medium">Back to Home</span>
-            </Link>
-            
-            <button 
-              onClick={handleLogout}
-              className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
-            >
-              <LogOut size={20} />
-              <span className="font-medium">Sign Out</span>
-            </button>
+          {/* Navigation Links */}
+          <div className="px-2 py-3 overflow-y-auto max-h-[calc(100vh-220px)] space-y-1">
+            <div className={`px-2 py-1 text-[10px] uppercase font-bold tracking-wider text-gray-400 dark:text-gray-500 ${isCollapsed ? 'lg:hidden' : ''}`}>
+              Navigation
+            </div>
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const active = isActive(item.path);
+
+              return (
+                <Link
+                  key={item.id}
+                  to={item.path}
+                  onClick={closeSidebar}
+                  title={isCollapsed ? item.label : undefined}
+                  className={`
+                    group flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-150
+                    ${active
+                      ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 font-semibold shadow-xs'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white'
+                    }
+                    ${isCollapsed ? 'lg:justify-center lg:px-2' : ''}
+                  `}
+                >
+                  <Icon
+                    size={18}
+                    className={`shrink-0 transition-colors ${
+                      active ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200'
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <div className="flex flex-1 items-center justify-between min-w-0">
+                      <span className="truncate">{item.label}</span>
+                      {item.badge && (
+                        <span className="ml-auto inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300">
+                          {item.badge}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </Link>
+              );
+            })}
           </div>
+        </div>
+
+        {/* Footer / Logout */}
+        <div className="p-3 border-t border-gray-200/80 dark:border-gray-800">
+          <button
+            type="button"
+            onClick={() => void logout()}
+            className={`
+              w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors
+              ${isCollapsed ? 'lg:justify-center lg:px-2' : ''}
+            `}
+            title={isCollapsed ? 'Sign Out' : undefined}
+          >
+            <LogOut size={16} className="shrink-0" />
+            {!isCollapsed && <span>{isDemoMode ? 'Exit Demo Session' : 'Sign Out'}</span>}
+          </button>
         </div>
       </aside>
     </>
-  )
+  );
 }
